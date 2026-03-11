@@ -4,7 +4,7 @@ import Heading from "../../ui/Heading";
 import Row from "../../ui/Row";
 
 import { useTodayActivity } from "./useTodayActivity";
-import Spinner from "../../ui/Spinner";
+import Spinner from "../../ui/Spiner";
 import TodayItem from "./TodayItem";
 
 const StyledToday = styled.div`
@@ -42,7 +42,6 @@ const NoActivity = styled.p`
 
 function TodayActivity() {
   const { activities, isLoading } = useTodayActivity();
-
   return (
     <StyledToday>
       <Row type="horizontal">

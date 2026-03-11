@@ -9,7 +9,7 @@ import { DarkModeProvider } from "./context/DarkModeContext";
 import Dashboard from "./pages/Dashboard";
 import LazyComponent from "./ui/LazyComponent";
 const Bookings = () => <LazyComponent importComponent={() => import("./pages/Bookings")} />;
-const Cabins = () => <LazyComponent importComponent={() => import("./pages/Bookings")} />;
+const Cabins = () => <LazyComponent importComponent={() => import("./pages/Cabins")} />;
 const Users = () => <LazyComponent importComponent={() => import("./pages/Users")} />;
 const Settings = () => <LazyComponent importComponent={() => import("./pages/Settings")} />;
 const Account = () => <LazyComponent importComponent={() => import("./pages/Account")} />;
