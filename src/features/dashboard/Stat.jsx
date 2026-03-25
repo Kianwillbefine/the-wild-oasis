@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const StyledStat = styled.div`
-  /* Box */
+  /* 盒子容器 */
   background-color: var(--color-grey-0);
   border: 1px solid var(--color-grey-100);
   border-radius: var(--border-radius-md);
@@ -22,7 +22,7 @@ const Icon = styled.div`
   align-items: center;
   justify-content: center;
 
-  /* Make these dynamic, based on the received prop */
+  /* 根据接收到的 prop 动态生成这些样式 */
   background-color: var(--color-${(props) => props.color}-100);
 
   & svg {

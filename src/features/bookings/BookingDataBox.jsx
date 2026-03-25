@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { format, isToday } from "date-fns";
+import { enUS, zhCN } from "date-fns/locale";
 import {
   HiOutlineChatBubbleBottomCenterText,
   HiOutlineCheckCircle,
@@ -14,7 +15,7 @@ import { formatDistanceFromNow, formatCurrency } from "../../utils/helpers";
 import { useLanguage } from "../../context/LanguageContext";
 
 const StyledBookingDataBox = styled.section`
-  /* Box */
+  /* 盒子容器 */
   background-color: var(--color-grey-0);
   border: 1px solid var(--color-grey-100);
   border-radius: var(--border-radius-md);
@@ -102,9 +103,10 @@ const Footer = styled.footer`
   text-align: right;
 `;
 
-// A purely presentational component
+// 纯展示组件
 function BookingDataBox({ booking }) {
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
+  const dateLocale = language === "zh-CN" ? zhCN : enUS;
   const {
     created_at,
     startDate,
@@ -132,11 +134,11 @@ function BookingDataBox({ booking }) {
         </div>
 
         <p>
-          {format(new Date(startDate), "EEE, MMM dd yyyy")} (
+          {format(new Date(startDate), "EEE, MMM dd yyyy", { locale: dateLocale })} (
           {isToday(new Date(startDate))
             ? t("common.today")
-            : formatDistanceFromNow(startDate)}
-          ) &mdash; {format(new Date(endDate), "EEE, MMM dd yyyy")}
+            : formatDistanceFromNow(startDate, language)}
+          ) &mdash; {format(new Date(endDate), "EEE, MMM dd yyyy", { locale: dateLocale })}
         </p>
       </Header>
 
@@ -167,12 +169,12 @@ function BookingDataBox({ booking }) {
 
         <Price isPaid={isPaid}>
           <DataItem icon={<HiOutlineCurrencyDollar />} label={t("bookings.totalPrice")}>
-            {formatCurrency(totalPrice)}
+            {formatCurrency(totalPrice, language)}
 
             {hasBreakfast &&
               ` ${t("bookings.totalWithBreakfast", {
-                cabinPrice: formatCurrency(cabinPrice),
-                breakfastPrice: formatCurrency(extrasPrice),
+                cabinPrice: formatCurrency(cabinPrice, language),
+                breakfastPrice: formatCurrency(extrasPrice, language),
               })}`}
           </DataItem>
 
@@ -181,7 +183,13 @@ function BookingDataBox({ booking }) {
       </Section>
 
       <Footer>
-        <p>{t("bookings.bookedOn", { date: format(new Date(created_at), "EEE, MMM dd yyyy, p") })}</p>
+        <p>
+          {t("bookings.bookedOn", {
+            date: format(new Date(created_at), "EEE, MMM dd yyyy, p", {
+              locale: dateLocale,
+            }),
+          })}
+        </p>
       </Footer>
     </StyledBookingDataBox>
   );

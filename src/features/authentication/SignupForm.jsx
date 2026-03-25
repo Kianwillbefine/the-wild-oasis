@@ -77,7 +77,7 @@ function SignupForm() {
       </FormRow>
 
       <FormRow>
-        {/* type is an HTML attribute! */}
+        {/* type 是 HTML 原生属性 */}
         <Button variation="secondary" type="reset" disabled={isLoading} onClick={reset}>
           {t("common.cancel")}
         </Button>

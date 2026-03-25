@@ -18,7 +18,7 @@ import { useSettings } from "../settings/useSettings";
 import { useLanguage } from "../../context/LanguageContext";
 
 const Box = styled.div`
-  /* Box */
+  /* 盒子容器 */
   background-color: var(--color-grey-0);
   border: 1px solid var(--color-grey-100);
   border-radius: var(--border-radius-md);
@@ -26,7 +26,7 @@ const Box = styled.div`
 `;
 
 function CheckinBooking() {
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
   const [confirmPaid, setConfirmPaid] = useState(false);
   const [addBreakfast, setAddBreakfast] = useState(false);
   const { booking, isLoading } = useBooking();
@@ -88,7 +88,7 @@ function CheckinBooking() {
             id="breakfast"
           >
             {t("checkin.addBreakfast", {
-              price: formatCurrency(optionalBreakfastPrice),
+              price: formatCurrency(optionalBreakfastPrice, language),
             })}
           </Checkbox>
         </Box>
@@ -104,11 +104,13 @@ function CheckinBooking() {
           {t("checkin.confirmPaid", {
             guest: guests.fullName,
             amount: !addBreakfast
-              ? formatCurrency(totalPrice)
+              ? formatCurrency(totalPrice, language)
               : `${formatCurrency(
-                  totalPrice + optionalBreakfastPrice
-                )} (${formatCurrency(totalPrice)} + ${formatCurrency(
-                  optionalBreakfastPrice
+                  totalPrice + optionalBreakfastPrice,
+                  language
+                )} (${formatCurrency(totalPrice, language)} + ${formatCurrency(
+                  optionalBreakfastPrice,
+                  language
                 )})`,
           })}
         </Checkbox>

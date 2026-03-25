@@ -12,7 +12,7 @@ import { useLanguage } from "../../context/LanguageContext";
 
 function UpdateUserDataForm() {
   const { t } = useLanguage();
-  // We don't need the loading state, and can immediately use the user data, because we know that it has already been loaded at this point
+  // 这里不需要单独处理 loading 状态，因为此时用户数据已经提前加载完成，可以直接使用
   const {
     user: {
       email,

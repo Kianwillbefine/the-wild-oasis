@@ -41,7 +41,8 @@ async function createCabins() {
 }
 
 async function createBookings() {
-  // Bookings need a guestId and a cabinId. We can't tell Supabase IDs for each object, it will calculate them on its own. So it might be different for different people, especially after multiple uploads. Therefore, we need to first get all guestIds and cabinIds, and then replace the original IDs in the booking data with the actual ones from the DB
+  // 预订数据需要 guestId 和 cabinId。Supabase 会自行生成这些 ID，
+  // 不同环境或多次上传后 ID 可能不同，所以要先取回真实 ID，再替换预订数据里的原始 ID
   const { data: guestsIds } = await supabase
     .from("guests")
     .select("id")
@@ -54,7 +55,7 @@ async function createBookings() {
   const allCabinIds = cabinsIds.map((cabin) => cabin.id);
 
   const finalBookings = bookings.map((booking) => {
-    // Here relying on the order of cabins, as they don't have and ID yet
+    // 这里依赖木屋数据的顺序，因为此时它们还没有真实 ID
     const cabin = cabins.at(booking.cabinId - 1);
     const numNights = subtractDates(booking.endDate, booking.startDate);
     const cabinPrice = numNights * (cabin.regularPrice - cabin.discount);
@@ -105,12 +106,12 @@ function Uploader() {
 
   async function uploadAll() {
     setIsLoading(true);
-    // Bookings need to be deleted FIRST
+    // 必须先删除预订数据
     await deleteBookings();
     await deleteGuests();
     await deleteCabins();
 
-    // Bookings need to be created LAST
+    // 必须最后再创建预订数据
     await createGuests();
     await createCabins();
     await createBookings();

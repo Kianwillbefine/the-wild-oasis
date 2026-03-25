@@ -1,4 +1,4 @@
-// Search for: 'jo', 'fa', 'mar', 'emm', 'ah'
+// 可搜索：'jo'、'fa'、'mar'、'emm'、'ah'
 
 export const guests = [
   {
@@ -45,7 +45,7 @@ export const guests = [
     countryFlag: 'https://flagcdn.com/us.svg',
   },
 
-  // GPT
+  // GPT 生成
   {
     fullName: 'Emma Watson',
     email: 'emma@gmail.com',

@@ -12,12 +12,13 @@ import {
 } from "recharts";
 import { useDarkMode } from "../../context/DarkModeContext";
 import { eachDayOfInterval, format, isSameDay, subDays } from "date-fns";
+import { enUS, zhCN } from "date-fns/locale";
 import { useLanguage } from "../../context/LanguageContext";
 
 const StyledSalesChart = styled(DashboardBox)`
   grid-column: 1 / -1;
 
-  /* Hack to change grid line colors */
+  /* 用一个小技巧修改网格线颜色 */
   & .recharts-cartesian-grid-horizontal line,
   & .recharts-cartesian-grid-vertical line {
     stroke: var(--color-grey-300);
@@ -25,8 +26,9 @@ const StyledSalesChart = styled(DashboardBox)`
 `;
 
 function SalesChart({ bookings, numDays }) {
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
   const { isDarkMode } = useDarkMode();
+  const dateLocale = language === "zh-CN" ? zhCN : enUS;
 
   const allDates = eachDayOfInterval({
     start: subDays(new Date(), numDays - 1),
@@ -35,7 +37,7 @@ function SalesChart({ bookings, numDays }) {
 
   const data = allDates.map((date) => {
     return {
-      label: format(date, "MMM dd"),
+      label: format(date, "MMM dd", { locale: dateLocale }),
       totalSales: bookings
         .filter((booking) => isSameDay(date, new Date(booking.created_at)))
         .reduce((acc, cur) => acc + cur.totalPrice, 0),
@@ -63,8 +65,8 @@ function SalesChart({ bookings, numDays }) {
     <StyledSalesChart>
       <Heading as="h2">
         {t("dashboardPage.salesTitle", {
-          start: format(allDates.at(0), "MMM dd yyyy"),
-          end: format(allDates.at(-1), "MMM dd yyyy"),
+          start: format(allDates.at(0), "MMM dd yyyy", { locale: dateLocale }),
+          end: format(allDates.at(-1), "MMM dd yyyy", { locale: dateLocale }),
         })}
       </Heading>
 

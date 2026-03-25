@@ -9,7 +9,7 @@ import TodayItem from "./TodayItem";
 import { useLanguage } from "../../context/LanguageContext";
 
 const StyledToday = styled.div`
-  /* Box */
+  /* 盒子容器 */
   background-color: var(--color-grey-0);
   border: 1px solid var(--color-grey-100);
   border-radius: var(--border-radius-md);
@@ -26,7 +26,7 @@ const TodayList = styled.ul`
   overflow: scroll;
   overflow-x: hidden;
 
-  /* Removing scrollbars for webkit, firefox, and ms, respectively */
+  /* 分别移除 webkit、firefox 和 ms 的滚动条 */
   &::-webkit-scrollbar {
     width: 0 !important;
   }

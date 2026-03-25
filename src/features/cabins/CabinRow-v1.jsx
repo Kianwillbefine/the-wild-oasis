@@ -8,6 +8,7 @@ import { useCreateCabin } from "./useCreateCabin";
 import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import Table from "../../ui/Table";
+import { useLanguage } from "../../context/LanguageContext";
 
 // const TableRow = styled.div`
 //   display: grid;
@@ -49,6 +50,7 @@ const Discount = styled.div`
 `;
 
 function CabinRow({ cabin }) {
+  const { language } = useLanguage();
   const { isDeleting, deleteCabin } = useDeleteCabin();
   const { isCreating, createCabin } = useCreateCabin();
 
@@ -78,9 +80,9 @@ function CabinRow({ cabin }) {
       <Img src={image} />
       <Cabin>{name}</Cabin>
       <div>Fits up to {maxCapacity} guests</div>
-      <Price>{formatCurrency(regularPrice)}</Price>
+      <Price>{formatCurrency(regularPrice, language)}</Price>
       {discount ? (
-        <Discount>{formatCurrency(discount)}</Discount>
+        <Discount>{formatCurrency(discount, language)}</Discount>
       ) : (
         <span>&mdash;</span>
       )}

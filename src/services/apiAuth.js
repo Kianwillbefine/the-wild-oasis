@@ -44,7 +44,7 @@ export async function logout() {
 }
 
 export async function updateCurrentUser({ password, fullName, avatar }) {
-  // 1. Update password OR fullName
+  // 1. 更新密码或 fullName
   let updateData;
   if (password) updateData = { password };
   if (fullName) updateData = { data: { fullName } };
@@ -54,14 +54,14 @@ export async function updateCurrentUser({ password, fullName, avatar }) {
   if (error) throw new Error(error.message);
   if (!avatar) return data;
 
-  // 2. Upload the avatar image
+  // 2. 上传头像图片
   const fileName = `avatar-${data.user.id}-${Math.random()}`;
 
   const { error: storageError } = await supabase.storage.from("avatars").upload(fileName, avatar);
 
   if (storageError) throw new Error(storageError.message);
 
-  // 3. Update avatar in the user
+  // 3. 更新用户资料中的头像字段
   const { data: updatedUser, error: error2 } = await supabase.auth.updateUser({
     data: {
       avatar: `${supabaseUrl}/storage/v1/object/public/avatars/${fileName}`,

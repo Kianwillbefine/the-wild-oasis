@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { format, isToday } from "date-fns";
+import { enUS, zhCN } from "date-fns/locale";
 import {
   HiArrowDownOnSquare,
   HiArrowUpOnSquare,
@@ -61,10 +62,11 @@ function BookingRow({
     cabins: { name: cabinName },
   },
 }) {
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
   const navigate = useNavigate();
   const { checkout, isCheckingOut } = useCheckout();
   const { deleteBooking, isDeleting } = useDeleteBooking();
+  const dateLocale = language === "zh-CN" ? zhCN : enUS;
 
   const statusToTagName = {
     unconfirmed: "blue",
@@ -85,12 +87,12 @@ function BookingRow({
         <span>
           {isToday(new Date(startDate))
             ? t("common.today")
-            : formatDistanceFromNow(startDate)}{" "}
-          &rarr; {numNights} {numNights > 1 ? "nights" : "night"}
+            : formatDistanceFromNow(startDate, language)}{" "}
+          &rarr; {t("dashboardPage.nights", { count: numNights })}
         </span>
         <span>
-          {format(new Date(startDate), "MMM dd yyyy")} &mdash;{" "}
-          {format(new Date(endDate), "MMM dd yyyy")}
+          {format(new Date(startDate), "MMM dd yyyy", { locale: dateLocale })} &mdash;{" "}
+          {format(new Date(endDate), "MMM dd yyyy", { locale: dateLocale })}
         </span>
       </Stacked>
 
@@ -102,7 +104,7 @@ function BookingRow({
             : t("bookings.checkedOut")}
       </Tag>
 
-      <Amount>{formatCurrency(totalPrice)}</Amount>
+      <Amount>{formatCurrency(totalPrice, language)}</Amount>
 
       <Modal>
         <Menus.Menu>

@@ -29,7 +29,7 @@ const StyledNavLink = styled(NavLink)`
     transition: all 0.3s;
   }
 
-  /* This works because react-router places the active class on the active NavLink */
+  /* 之所以能生效，是因为 react-router 会把 active class 加到当前激活的 NavLink 上 */
   &:hover,
   &:active,
   &.active:link,

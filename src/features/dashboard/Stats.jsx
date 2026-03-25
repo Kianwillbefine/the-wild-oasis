@@ -9,21 +9,21 @@ import { formatCurrency } from "../../utils/helpers";
 import { useLanguage } from "../../context/LanguageContext";
 
 function Stats({ bookings, confirmedStays, numDays, cabinCount }) {
-  const { t } = useLanguage();
-  // 1.
+  const { language, t } = useLanguage();
+  // 1. 预订数
   const numBookings = bookings.length;
 
-  // 2.
+  // 2. 销售额
   const sales = bookings.reduce((acc, cur) => acc + cur.totalPrice, 0);
 
-  // 3.
+  // 3. 入住数
   const checkins = confirmedStays.length;
 
-  // 4.
+  // 4. 入住率
   const occupation =
     confirmedStays.reduce((acc, cur) => acc + cur.numNights, 0) /
     (numDays * cabinCount);
-  // num checked in nights / all available nights (num days * num cabins)
+  // 已入住晚数 / 所有可用晚数（天数 * 木屋数量）
 
   return (
     <>
@@ -37,7 +37,7 @@ function Stats({ bookings, confirmedStays, numDays, cabinCount }) {
         title={t("dashboardPage.statSales")}
         color="green"
         icon={<HiOutlineBanknotes />}
-        value={formatCurrency(sales)}
+        value={formatCurrency(sales, language)}
       />
       <Stat
         title={t("dashboardPage.statCheckins")}

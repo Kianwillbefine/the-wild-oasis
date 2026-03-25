@@ -51,7 +51,7 @@ const Discount = styled.div`
 `;
 
 function CabinRow({ cabin }) {
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
   const { isDeleting, deleteCabin } = useDeleteCabin();
   const { isCreating, createCabin } = useCreateCabin();
 
@@ -81,9 +81,9 @@ function CabinRow({ cabin }) {
       <Img src={image} />
       <Cabin>{name}</Cabin>
       <div>{t("cabins.fitsUpTo", { count: maxCapacity })}</div>
-      <Price>{formatCurrency(regularPrice)}</Price>
+      <Price>{formatCurrency(regularPrice, language)}</Price>
       {discount ? (
-        <Discount>{formatCurrency(discount)}</Discount>
+        <Discount>{formatCurrency(discount, language)}</Discount>
       ) : (
         <span>&mdash;</span>
       )}

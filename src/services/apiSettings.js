@@ -10,12 +10,12 @@ export async function getSettings() {
   return data;
 }
 
-// We expect a newSetting object that looks like {setting: newValue}
+// 这里期望接收的 newSetting 对象格式为 { setting: newValue }
 export async function updateSetting(newSetting) {
   const { data, error } = await supabase
     .from("settings")
     .update(newSetting)
-    // There is only ONE row of settings, and it has the ID=1, and so this is the updated one
+    // 设置表里只有一行数据，且 ID=1，所以这里更新的就是那一行
     .eq("id", 1)
     .single();
 
