@@ -5,8 +5,10 @@ import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
 import { useSearchParams } from "react-router-dom";
 import Empty from "../../ui/Empty";
+import { useLanguage } from "../../context/LanguageContext";
 
 function CabinTable() {
+  const { t } = useLanguage();
   const { isLoading, cabins } = useCabins();
   const [searchParams] = useSearchParams();
 
@@ -36,10 +38,10 @@ function CabinTable() {
       <Table columns="0.6fr 1.8fr 2.2fr 1fr 1fr 1fr">
         <Table.Header>
           <div></div>
-          <div>Cabin</div>
-          <div>Capacity</div>
-          <div>Price</div>
-          <div>Discount</div>
+          <div>{t("cabins.cabin")}</div>
+          <div>{t("cabins.capacity")}</div>
+          <div>{t("cabins.price")}</div>
+          <div>{t("cabins.discount")}</div>
           <div></div>
         </Table.Header>
 

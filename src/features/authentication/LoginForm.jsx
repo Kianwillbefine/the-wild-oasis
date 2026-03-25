@@ -5,8 +5,10 @@ import Input from "../../ui/Input";
 import FormRowVertical from "../../ui/FormRowVertical";
 import { useLogin } from "./useLogin";
 import SpinnerMini from "../../ui/SpinnerMini";
+import { useLanguage } from "../../context/LanguageContext";
 
 function LoginForm() {
+  const { t } = useLanguage();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { login, isLoading } = useLogin();
@@ -27,11 +29,10 @@ function LoginForm() {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <FormRowVertical label="Email address">
+      <FormRowVertical label={t("auth.email")}>
         <Input
           type="email"
           id="email"
-          // This makes this form better for password managers
           autoComplete="username"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -39,7 +40,7 @@ function LoginForm() {
         />
       </FormRowVertical>
 
-      <FormRowVertical label="Password">
+      <FormRowVertical label={t("auth.password")}>
         <Input
           type="password"
           id="password"
@@ -51,7 +52,7 @@ function LoginForm() {
       </FormRowVertical>
       <FormRowVertical>
         <Button size="large" disabled={isLoading}>
-          {!isLoading ? "Log in" : <SpinnerMini />}
+          {!isLoading ? t("auth.loginButton") : <SpinnerMini />}
         </Button>
       </FormRowVertical>
     </Form>

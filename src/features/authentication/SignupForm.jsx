@@ -4,10 +4,12 @@ import Form from "../../ui/Form";
 import FormRow from "../../ui/FormRow";
 import Input from "../../ui/Input";
 import { useSignup } from "./useSignup";
+import { useLanguage } from "../../context/LanguageContext";
 
-// Email regex: /\S+@\S+\.\S+/
+// 邮箱正则表达式（Email regex）：/\S+@\S+\.\S+/
 
 function SignupForm() {
+  const { t } = useLanguage();
   const { signup, isLoading } = useSignup();
   const { register, formState, getValues, handleSubmit, reset } = useForm();
   const { errors } = formState;
@@ -23,72 +25,63 @@ function SignupForm() {
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
-      <FormRow label="Full name" error={errors?.fullName?.message}>
+      <FormRow label={t("auth.fullName")} error={errors?.fullName?.message}>
         <Input
           type="text"
           id="fullName"
           disabled={isLoading}
-          {...register("fullName", { required: "This field is required" })}
+          {...register("fullName", { required: t("auth.required") })}
         />
       </FormRow>
 
-      <FormRow label="Email address" error={errors?.email?.message}>
+      <FormRow label={t("auth.email")} error={errors?.email?.message}>
         <Input
           type="email"
           id="email"
           disabled={isLoading}
           {...register("email", {
-            required: "This field is required",
+            required: t("auth.required"),
             pattern: {
               value: /\S+@\S+\.\S+/,
-              message: "Please provide a valid email address",
+              message: t("auth.validEmail"),
             },
           })}
         />
       </FormRow>
 
-      <FormRow
-        label="Password (min 8 characters)"
-        error={errors?.password?.message}
-      >
+      <FormRow label={t("auth.password")} error={errors?.password?.message}>
         <Input
           type="password"
           id="password"
           disabled={isLoading}
           {...register("password", {
-            required: "This field is required",
+            required: t("auth.required"),
             minLength: {
               value: 8,
-              message: "Password needs a minimum of 8 characters",
+              message: t("auth.minPassword"),
             },
           })}
         />
       </FormRow>
 
-      <FormRow label="Repeat password" error={errors?.passwordConfirm?.message}>
+      <FormRow label={t("auth.repeatPassword")} error={errors?.passwordConfirm?.message}>
         <Input
           type="password"
           id="passwordConfirm"
           disabled={isLoading}
           {...register("passwordConfirm", {
-            required: "This field is required",
-            validate: (value) =>
-              value === getValues().password || "Passwords need to match",
+            required: t("auth.required"),
+            validate: (value) => value === getValues().password || t("auth.passwordsMatch"),
           })}
         />
       </FormRow>
 
       <FormRow>
         {/* type is an HTML attribute! */}
-        <Button
-          variation="secondary"
-          type="reset"
-          disabled={isLoading}
-          onClick={reset}
-        >
-          Cancel
+        <Button variation="secondary" type="reset" disabled={isLoading} onClick={reset}>
+          {t("common.cancel")}
         </Button>
-        <Button disabled={isLoading}>Create new user</Button>
+        <Button disabled={isLoading}>{t("auth.createUser")}</Button>
       </FormRow>
     </Form>
   );

@@ -6,7 +6,7 @@ const rotate = keyframes`
   }
 `;
 
-const Spiner = styled.div`
+const Spinner = styled.div`
   margin: 4.8rem auto;
 
   width: 6.4rem;
@@ -18,4 +18,4 @@ const Spiner = styled.div`
   animation: ${rotate} 1.5s infinite linear;
 `;
 
-export default Spiner;
+export default Spinner;

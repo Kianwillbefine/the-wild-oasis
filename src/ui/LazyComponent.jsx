@@ -1,11 +1,11 @@
-import React, { Suspense, lazy } from "react";
-import Spiner from "./Spinner";
+﻿import React, { Suspense, lazy } from "react";
+import Spinner from "./Spinner";
 import toast from "react-hot-toast";
 
 const LazyComponent = ({
   importComponent,
-  Loading = () => <Spiner />, // 自定义加载组件
-  Error = ({ error }) => toast.error("error"), // 自定义错误组件
+  Loading = () => <Spinner />,
+  Error = ({ error }) => toast.error(error?.message ?? "Failed to load component"),
   ...props
 }) => {
   try {

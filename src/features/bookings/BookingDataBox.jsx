@@ -11,6 +11,7 @@ import DataItem from "../../ui/DataItem";
 import { Flag } from "../../ui/Flag";
 
 import { formatDistanceFromNow, formatCurrency } from "../../utils/helpers";
+import { useLanguage } from "../../context/LanguageContext";
 
 const StyledBookingDataBox = styled.section`
   /* Box */
@@ -103,6 +104,7 @@ const Footer = styled.footer`
 
 // A purely presentational component
 function BookingDataBox({ booking }) {
+  const { t } = useLanguage();
   const {
     created_at,
     startDate,
@@ -125,14 +127,14 @@ function BookingDataBox({ booking }) {
         <div>
           <HiOutlineHomeModern />
           <p>
-            {numNights} nights in Cabin <span>{cabinName}</span>
+            {t("bookings.nightsInCabin", { nights: numNights, cabin: cabinName })}
           </p>
         </div>
 
         <p>
           {format(new Date(startDate), "EEE, MMM dd yyyy")} (
           {isToday(new Date(startDate))
-            ? "Today"
+            ? t("common.today")
             : formatDistanceFromNow(startDate)}
           ) &mdash; {format(new Date(endDate), "EEE, MMM dd yyyy")}
         </p>
@@ -142,43 +144,44 @@ function BookingDataBox({ booking }) {
         <Guest>
           {countryFlag && <Flag src={countryFlag} alt={`Flag of ${country}`} />}
           <p>
-            {guestName} {numGuests > 1 ? `+ ${numGuests - 1} guests` : ""}
+            {guestName} {numGuests > 1 ? t("bookings.guestCount", { count: numGuests - 1 }) : ""}
           </p>
           <span>&bull;</span>
           <p>{email}</p>
           <span>&bull;</span>
-          <p>National ID {nationalID}</p>
+          <p>{t("bookings.nationalId", { id: nationalID })}</p>
         </Guest>
 
         {observations && (
           <DataItem
             icon={<HiOutlineChatBubbleBottomCenterText />}
-            label="Observations"
+            label={t("bookings.observations")}
           >
             {observations}
           </DataItem>
         )}
 
-        <DataItem icon={<HiOutlineCheckCircle />} label="Breakfast included?">
-          {hasBreakfast ? "Yes" : "No"}
+        <DataItem icon={<HiOutlineCheckCircle />} label={t("bookings.breakfastIncluded")}>
+          {hasBreakfast ? t("bookings.yes") : t("bookings.no")}
         </DataItem>
 
         <Price isPaid={isPaid}>
-          <DataItem icon={<HiOutlineCurrencyDollar />} label={`Total price`}>
+          <DataItem icon={<HiOutlineCurrencyDollar />} label={t("bookings.totalPrice")}>
             {formatCurrency(totalPrice)}
 
             {hasBreakfast &&
-              ` (${formatCurrency(cabinPrice)} cabin + ${formatCurrency(
-                extrasPrice
-              )} breakfast)`}
+              ` ${t("bookings.totalWithBreakfast", {
+                cabinPrice: formatCurrency(cabinPrice),
+                breakfastPrice: formatCurrency(extrasPrice),
+              })}`}
           </DataItem>
 
-          <p>{isPaid ? "Paid" : "Will pay at property"}</p>
+          <p>{isPaid ? t("bookings.paid") : t("bookings.willPayAtProperty")}</p>
         </Price>
       </Section>
 
       <Footer>
-        <p>Booked {format(new Date(created_at), "EEE, MMM dd yyyy, p")}</p>
+        <p>{t("bookings.bookedOn", { date: format(new Date(created_at), "EEE, MMM dd yyyy, p") })}</p>
       </Footer>
     </StyledBookingDataBox>
   );

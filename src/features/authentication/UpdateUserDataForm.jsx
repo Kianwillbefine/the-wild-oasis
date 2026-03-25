@@ -8,8 +8,10 @@ import Input from "../../ui/Input";
 
 import { useUser } from "./useUser";
 import { useUpdateUser } from "./useUpdateUser";
+import { useLanguage } from "../../context/LanguageContext";
 
 function UpdateUserDataForm() {
+  const { t } = useLanguage();
   // We don't need the loading state, and can immediately use the user data, because we know that it has already been loaded at this point
   const {
     user: {
@@ -44,11 +46,11 @@ function UpdateUserDataForm() {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <FormRow label="Email address">
+      <FormRow label={t("auth.email")}>
         <Input value={email} disabled />
       </FormRow>
 
-      <FormRow label="Full name">
+      <FormRow label={t("auth.fullName")}>
         <Input
           type="text"
           value={fullName}
@@ -58,7 +60,7 @@ function UpdateUserDataForm() {
         />
       </FormRow>
 
-      <FormRow label="Avatar image">
+      <FormRow label={t("auth.avatarImage")}>
         <FileInput
           id="avatar"
           accept="image/*"
@@ -74,9 +76,9 @@ function UpdateUserDataForm() {
           disabled={isUpdating}
           onClick={handleCancel}
         >
-          Cancel
+          {t("common.cancel")}
         </Button>
-        <Button disabled={isUpdating}>Update account</Button>
+        <Button disabled={isUpdating}>{t("auth.updateAccount")}</Button>
       </FormRow>
     </Form>
   );

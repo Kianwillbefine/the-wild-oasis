@@ -9,6 +9,7 @@ import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
+import { useLanguage } from "../../context/LanguageContext";
 
 // const TableRow = styled.div`
 //   display: grid;
@@ -50,6 +51,7 @@ const Discount = styled.div`
 `;
 
 function CabinRow({ cabin }) {
+  const { t } = useLanguage();
   const { isDeleting, deleteCabin } = useDeleteCabin();
   const { isCreating, createCabin } = useCreateCabin();
 
@@ -65,7 +67,7 @@ function CabinRow({ cabin }) {
 
   function handleDuplicate() {
     createCabin({
-      name: `Copy of ${name}`,
+      name: t("cabins.duplicatePrefix", { name }),
       maxCapacity,
       regularPrice,
       discount,
@@ -78,7 +80,7 @@ function CabinRow({ cabin }) {
     <Table.Row>
       <Img src={image} />
       <Cabin>{name}</Cabin>
-      <div>Fits up to {maxCapacity} guests</div>
+      <div>{t("cabins.fitsUpTo", { count: maxCapacity })}</div>
       <Price>{formatCurrency(regularPrice)}</Price>
       {discount ? (
         <Discount>{formatCurrency(discount)}</Discount>
@@ -96,15 +98,15 @@ function CabinRow({ cabin }) {
                 onClick={handleDuplicate}
                 disabled={isCreating}
               >
-                Duplicate
+                {t("cabins.duplicate")}
               </Menus.Button>
 
               <Modal.Open opens="edit">
-                <Menus.Button icon={<HiPencil />}>Edit</Menus.Button>
+                <Menus.Button icon={<HiPencil />}>{t("cabins.edit")}</Menus.Button>
               </Modal.Open>
 
               <Modal.Open opens="delete">
-                <Menus.Button icon={<HiTrash />}>Delete</Menus.Button>
+                <Menus.Button icon={<HiTrash />}>{t("cabins.delete")}</Menus.Button>
               </Modal.Open>
             </Menus.List>
 

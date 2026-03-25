@@ -12,6 +12,7 @@ import {
 } from "recharts";
 import { useDarkMode } from "../../context/DarkModeContext";
 import { eachDayOfInterval, format, isSameDay, subDays } from "date-fns";
+import { useLanguage } from "../../context/LanguageContext";
 
 const StyledSalesChart = styled(DashboardBox)`
   grid-column: 1 / -1;
@@ -24,6 +25,7 @@ const StyledSalesChart = styled(DashboardBox)`
 `;
 
 function SalesChart({ bookings, numDays }) {
+  const { t } = useLanguage();
   const { isDarkMode } = useDarkMode();
 
   const allDates = eachDayOfInterval({
@@ -60,8 +62,10 @@ function SalesChart({ bookings, numDays }) {
   return (
     <StyledSalesChart>
       <Heading as="h2">
-        Sales from {format(allDates.at(0), "MMM dd yyyy")} &mdash;{" "}
-        {format(allDates.at(-1), "MMM dd yyyy")}{" "}
+        {t("dashboardPage.salesTitle", {
+          start: format(allDates.at(0), "MMM dd yyyy"),
+          end: format(allDates.at(-1), "MMM dd yyyy"),
+        })}
       </Heading>
 
       <ResponsiveContainer height={300} width="100%">
@@ -84,7 +88,7 @@ function SalesChart({ bookings, numDays }) {
             stroke={colors.totalSales.stroke}
             fill={colors.totalSales.fill}
             strokeWidth={2}
-            name="Total sales"
+            name={t("dashboardPage.totalSales")}
             unit="$"
           />
           <Area
@@ -93,7 +97,7 @@ function SalesChart({ bookings, numDays }) {
             stroke={colors.extrasSales.stroke}
             fill={colors.extrasSales.fill}
             strokeWidth={2}
-            name="Extras sales"
+            name={t("dashboardPage.extrasSales")}
             unit="$"
           />
         </AreaChart>

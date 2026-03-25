@@ -15,6 +15,7 @@ import Checkbox from "../../ui/Checkbox";
 import { formatCurrency } from "../../utils/helpers";
 import { useCheckin } from "./useCheckin";
 import { useSettings } from "../settings/useSettings";
+import { useLanguage } from "../../context/LanguageContext";
 
 const Box = styled.div`
   /* Box */
@@ -25,6 +26,7 @@ const Box = styled.div`
 `;
 
 function CheckinBooking() {
+  const { t } = useLanguage();
   const [confirmPaid, setConfirmPaid] = useState(false);
   const [addBreakfast, setAddBreakfast] = useState(false);
   const { booking, isLoading } = useBooking();
@@ -69,8 +71,8 @@ function CheckinBooking() {
   return (
     <>
       <Row type="horizontal">
-        <Heading as="h1">Check in booking #{bookingId}</Heading>
-        <ButtonText onClick={moveBack}>&larr; Back</ButtonText>
+        <Heading as="h1">{t("pages.checkin.title", { id: bookingId })}</Heading>
+        <ButtonText onClick={moveBack}>&larr; {t("common.back")}</ButtonText>
       </Row>
 
       <BookingDataBox booking={booking} />
@@ -85,7 +87,9 @@ function CheckinBooking() {
             }}
             id="breakfast"
           >
-            Want to add breakfast for {formatCurrency(optionalBreakfastPrice)}?
+            {t("checkin.addBreakfast", {
+              price: formatCurrency(optionalBreakfastPrice),
+            })}
           </Checkbox>
         </Box>
       )}
@@ -97,23 +101,25 @@ function CheckinBooking() {
           disabled={confirmPaid || isCheckingIn}
           id="confirm"
         >
-          I confirm that {guests.fullName} has paid the total amount of{" "}
-          {!addBreakfast
-            ? formatCurrency(totalPrice)
-            : `${formatCurrency(
-                totalPrice + optionalBreakfastPrice
-              )} (${formatCurrency(totalPrice)} + ${formatCurrency(
-                optionalBreakfastPrice
-              )})`}
+          {t("checkin.confirmPaid", {
+            guest: guests.fullName,
+            amount: !addBreakfast
+              ? formatCurrency(totalPrice)
+              : `${formatCurrency(
+                  totalPrice + optionalBreakfastPrice
+                )} (${formatCurrency(totalPrice)} + ${formatCurrency(
+                  optionalBreakfastPrice
+                )})`,
+          })}
         </Checkbox>
       </Box>
 
       <ButtonGroup>
         <Button onClick={handleCheckin} disabled={!confirmPaid || isCheckingIn}>
-          Check in booking #{bookingId}
+          {t("checkin.action", { id: bookingId })}
         </Button>
         <Button variation="secondary" onClick={moveBack}>
-          Back
+          {t("common.back")}
         </Button>
       </ButtonGroup>
     </>

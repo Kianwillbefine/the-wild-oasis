@@ -1,5 +1,8 @@
+import { useLanguage } from "../context/LanguageContext";
+
 function Empty({ resourceName }) {
-  return <p>No {resourceName} could be found.</p>;
+  const { t } = useLanguage();
+  return <p>{t("ui.emptyResource", { resource: resourceName })}</p>;
 }
 
 export default Empty;

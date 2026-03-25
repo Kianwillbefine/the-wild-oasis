@@ -6,8 +6,10 @@ import {
 } from "react-icons/hi2";
 import Stat from "./Stat";
 import { formatCurrency } from "../../utils/helpers";
+import { useLanguage } from "../../context/LanguageContext";
 
 function Stats({ bookings, confirmedStays, numDays, cabinCount }) {
+  const { t } = useLanguage();
   // 1.
   const numBookings = bookings.length;
 
@@ -26,25 +28,25 @@ function Stats({ bookings, confirmedStays, numDays, cabinCount }) {
   return (
     <>
       <Stat
-        title="Bookings"
+        title={t("dashboardPage.statBookings")}
         color="blue"
         icon={<HiOutlineBriefcase />}
         value={numBookings}
       />
       <Stat
-        title="Sales"
+        title={t("dashboardPage.statSales")}
         color="green"
         icon={<HiOutlineBanknotes />}
         value={formatCurrency(sales)}
       />
       <Stat
-        title="Check ins"
+        title={t("dashboardPage.statCheckins")}
         color="indigo"
         icon={<HiOutlineCalendarDays />}
         value={checkins}
       />
       <Stat
-        title="Occupancy rate"
+        title={t("dashboardPage.statOccupation")}
         color="yellow"
         icon={<HiOutlineChartBar />}
         value={Math.round(occupation * 100) + "%"}

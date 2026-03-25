@@ -9,8 +9,10 @@ import FormRow from "../../ui/FormRow";
 
 import { useCreateCabin } from "./useCreateCabin";
 import { useEditCabin } from "./useEditCabin";
+import { useLanguage } from "../../context/LanguageContext";
 
 function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
+  const { t } = useLanguage();
   const { isCreating, createCabin } = useCreateCabin();
   const { isEditing, editCabin } = useEditCabin();
   const isWorking = isCreating || isEditing;
@@ -57,64 +59,64 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
       onSubmit={handleSubmit(onSubmit, onError)}
       type={onCloseModal ? "modal" : "regular"}
     >
-      <FormRow label="Cabin name" error={errors?.name?.message}>
+      <FormRow label={t("cabins.formName")} error={errors?.name?.message}>
         <Input
           type="text"
           id="name"
           disabled={isWorking}
           {...register("name", {
-            required: "This field is required",
+            required: t("auth.required"),
           })}
         />
       </FormRow>
 
-      <FormRow label="Maximum capacity" error={errors?.maxCapacity?.message}>
+      <FormRow label={t("cabins.formMaxCapacity")} error={errors?.maxCapacity?.message}>
         <Input
           type="number"
           id="maxCapacity"
           disabled={isWorking}
           {...register("maxCapacity", {
-            required: "This field is required",
+            required: t("auth.required"),
             min: {
               value: 1,
-              message: "Capacity should be at least 1",
+              message: t("cabins.minCapacity"),
             },
           })}
         />
       </FormRow>
 
-      <FormRow label="Regular price" error={errors?.regularPrice?.message}>
+      <FormRow label={t("cabins.formRegularPrice")} error={errors?.regularPrice?.message}>
         <Input
           type="number"
           id="regularPrice"
           disabled={isWorking}
           {...register("regularPrice", {
-            required: "This field is required",
+            required: t("auth.required"),
             min: {
               value: 1,
-              message: "Capacity should be at least 1",
+              message: t("cabins.minCapacity"),
             },
           })}
         />
       </FormRow>
 
-      <FormRow label="Discount" error={errors?.discount?.message}>
+      <FormRow label={t("cabins.formDiscount")} error={errors?.discount?.message}>
         <Input
           type="number"
           id="discount"
           disabled={isWorking}
           defaultValue={0}
           {...register("discount", {
-            required: "This field is required",
+            required: t("auth.required"),
             validate: (value) =>
               value <= getValues().regularPrice ||
-              "Discount should be less than regular price",
+              t("cabins.discountLessThanPrice"),
           })}
         />
       </FormRow>
 
       <FormRow
-        label="Description for website"
+        label={t("cabins.formDescription")}
         error={errors?.description?.message}
       >
         <Textarea
@@ -123,17 +125,17 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
           defaultValue=""
           disabled={isWorking}
           {...register("description", {
-            required: "This field is required",
+            required: t("auth.required"),
           })}
         />
       </FormRow>
 
-      <FormRow label="Cabin photo">
+      <FormRow label={t("cabins.formPhoto")}>
         <FileInput
           id="image"
           accept="image/*"
           {...register("image", {
-            required: isEditSession ? false : "This field is required",
+            required: isEditSession ? false : t("auth.required"),
           })}
         />
       </FormRow>
@@ -145,10 +147,10 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
           type="reset"
           onClick={() => onCloseModal?.()}
         >
-          Cancel
+          {t("common.cancel")}
         </Button>
         <Button disabled={isWorking}>
-          {isEditSession ? "Edit cabin" : "Create new cabin"}
+          {isEditSession ? t("cabins.editCabin") : t("cabins.createCabin")}
         </Button>
       </FormRow>
     </Form>

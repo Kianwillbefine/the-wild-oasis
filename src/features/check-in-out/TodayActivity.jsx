@@ -4,8 +4,9 @@ import Heading from "../../ui/Heading";
 import Row from "../../ui/Row";
 
 import { useTodayActivity } from "./useTodayActivity";
-import Spinner from "../../ui/Spiner";
+import Spinner from "../../ui/Spinner";
 import TodayItem from "./TodayItem";
+import { useLanguage } from "../../context/LanguageContext";
 
 const StyledToday = styled.div`
   /* Box */
@@ -41,11 +42,12 @@ const NoActivity = styled.p`
 `;
 
 function TodayActivity() {
+  const { t } = useLanguage();
   const { activities, isLoading } = useTodayActivity();
   return (
     <StyledToday>
       <Row type="horizontal">
-        <Heading as="h2">Today</Heading>
+        <Heading as="h2">{t("dashboardPage.todayTitle")}</Heading>
       </Row>
 
       {!isLoading ? (
@@ -56,7 +58,7 @@ function TodayActivity() {
             ))}
           </TodayList>
         ) : (
-          <NoActivity>No activity today...</NoActivity>
+          <NoActivity>{t("dashboardPage.noActivity")}</NoActivity>
         )
       ) : (
         <Spinner />

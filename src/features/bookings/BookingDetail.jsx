@@ -18,6 +18,7 @@ import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import { useDeleteBooking } from "./useDeleteBooking";
 import Empty from "../../ui/Empty";
+import { useLanguage } from "../../context/LanguageContext";
 
 const HeadingGroup = styled.div`
   display: flex;
@@ -26,6 +27,7 @@ const HeadingGroup = styled.div`
 `;
 
 function BookingDetail() {
+  const { t } = useLanguage();
   const { booking, isLoading } = useBooking();
   const { checkout, isCheckingOut } = useCheckout();
   const { deleteBooking, isDeleting } = useDeleteBooking();
@@ -48,10 +50,16 @@ function BookingDetail() {
     <>
       <Row type="horizontal">
         <HeadingGroup>
-          <Heading as="h1">Booking #{bookingId}</Heading>
-          <Tag type={statusToTagName[status]}>{status.replace("-", " ")}</Tag>
+          <Heading as="h1">{t("pages.bookings.detail", { id: bookingId })}</Heading>
+          <Tag type={statusToTagName[status]}>
+            {status === "unconfirmed"
+              ? t("bookings.unconfirmed")
+              : status === "checked-in"
+                ? t("bookings.checkedIn")
+                : t("bookings.checkedOut")}
+          </Tag>
         </HeadingGroup>
-        <ButtonText onClick={moveBack}>&larr; Back</ButtonText>
+        <ButtonText onClick={moveBack}>&larr; {t("common.back")}</ButtonText>
       </Row>
 
       <BookingDataBox booking={booking} />
@@ -59,7 +67,7 @@ function BookingDetail() {
       <ButtonGroup>
         {status === "unconfirmed" && (
           <Button onClick={() => navigate(`/checkin/${bookingId}`)}>
-            Check in
+            {t("common.checkIn")}
           </Button>
         )}
 
@@ -69,13 +77,13 @@ function BookingDetail() {
             onClick={() => checkout(bookingId)}
             disabled={isCheckingOut}
           >
-            Check out
+            {t("common.checkOut")}
           </Button>
         )}
 
         <Modal>
           <Modal.Open opens="delete">
-            <Button variation="danger">Delete booking</Button>
+            <Button variation="danger">{t("bookings.deleteBooking")}</Button>
           </Modal.Open>
 
           <Modal.Window name="delete">
@@ -92,7 +100,7 @@ function BookingDetail() {
         </Modal>
 
         <Button variation="secondary" onClick={moveBack}>
-          Back
+          {t("common.back")}
         </Button>
       </ButtonGroup>
     </>

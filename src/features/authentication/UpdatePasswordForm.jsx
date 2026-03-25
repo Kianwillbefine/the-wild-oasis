@@ -5,8 +5,10 @@ import FormRow from "../../ui/FormRow";
 import Input from "../../ui/Input";
 
 import { useUpdateUser } from "./useUpdateUser";
+import { useLanguage } from "../../context/LanguageContext";
 
 function UpdatePasswordForm() {
+  const { t } = useLanguage();
   const { register, handleSubmit, formState, getValues, reset } = useForm();
   const { errors } = formState;
 
@@ -19,7 +21,7 @@ function UpdatePasswordForm() {
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <FormRow
-        label="New password (min 8 chars)"
+        label={t("auth.newPassword")}
         error={errors?.password?.message}
       >
         <Input
@@ -28,17 +30,17 @@ function UpdatePasswordForm() {
           autoComplete="current-password"
           disabled={isUpdating}
           {...register("password", {
-            required: "This field is required",
+            required: t("auth.required"),
             minLength: {
               value: 8,
-              message: "Password needs a minimum of 8 characters",
+              message: t("auth.minPassword"),
             },
           })}
         />
       </FormRow>
 
       <FormRow
-        label="Confirm password"
+        label={t("auth.confirmPassword")}
         error={errors?.passwordConfirm?.message}
       >
         <Input
@@ -47,17 +49,17 @@ function UpdatePasswordForm() {
           id="passwordConfirm"
           disabled={isUpdating}
           {...register("passwordConfirm", {
-            required: "This field is required",
+            required: t("auth.required"),
             validate: (value) =>
-              getValues().password === value || "Passwords need to match",
+              getValues().password === value || t("auth.passwordsMatch"),
           })}
         />
       </FormRow>
       <FormRow>
         <Button onClick={reset} type="reset" variation="secondary">
-          Cancel
+          {t("common.cancel")}
         </Button>
-        <Button disabled={isUpdating}>Update password</Button>
+        <Button disabled={isUpdating}>{t("auth.updatePassword")}</Button>
       </FormRow>
     </Form>
   );
