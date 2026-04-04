@@ -8,7 +8,6 @@ import { useCreateCabin } from "./useCreateCabin";
 import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import Table from "../../ui/Table";
-import { useLanguage } from "../../context/LanguageContext";
 
 // const TableRow = styled.div`
 //   display: grid;
@@ -50,7 +49,6 @@ const Discount = styled.div`
 `;
 
 function CabinRow({ cabin }) {
-  const { language } = useLanguage();
   const { isDeleting, deleteCabin } = useDeleteCabin();
   const { isCreating, createCabin } = useCreateCabin();
 
@@ -66,7 +64,7 @@ function CabinRow({ cabin }) {
 
   function handleDuplicate() {
     createCabin({
-      name: `Copy of ${name}`,
+      name: `${name}（副本）`,
       maxCapacity,
       regularPrice,
       discount,
@@ -79,10 +77,10 @@ function CabinRow({ cabin }) {
     <Table.Row>
       <Img src={image} />
       <Cabin>{name}</Cabin>
-      <div>Fits up to {maxCapacity} guests</div>
-      <Price>{formatCurrency(regularPrice, language)}</Price>
+      <div>最多可住 {maxCapacity} 位客人</div>
+      <Price>{formatCurrency(regularPrice)}</Price>
       {discount ? (
-        <Discount>{formatCurrency(discount, language)}</Discount>
+        <Discount>{formatCurrency(discount)}</Discount>
       ) : (
         <span>&mdash;</span>
       )}
@@ -108,7 +106,7 @@ function CabinRow({ cabin }) {
           </Modal.Open>
           <Modal.Window name="delete">
             <ConfirmDelete
-              resourceName="cabins"
+              resourceName="房源"
               disabled={isDeleting}
               onConfirm={() => deleteCabin(cabinId)}
             />

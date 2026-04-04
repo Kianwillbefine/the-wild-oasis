@@ -13,7 +13,6 @@ function Dashboard() {
         <Heading as="h1">{t("pages.dashboard.title")}</Heading>
         <DashboardFilter />
       </Row>
-
       <DashboardLayout />
     </>
   );

@@ -20,7 +20,7 @@ function CreateCabinForm() {
   const { mutate, isLoading: isCreating } = useMutation({
     mutationFn: createCabin,
     onSuccess: () => {
-      toast.success("New cabin successfully created");
+      toast.success("房源创建成功");
       queryClient.invalidateQueries({ queryKey: ["cabins"] });
       reset();
     },
@@ -37,64 +37,63 @@ function CreateCabinForm() {
 
   return (
     <Form onSubmit={handleSubmit(onSubmit, onError)}>
-      <FormRow label="Cabin name" error={errors?.name?.message}>
+      <FormRow label="房源名称" error={errors?.name?.message}>
         <Input
           type="text"
           id="name"
           disabled={isCreating}
           {...register("name", {
-            required: "This field is required",
+            required: "此字段为必填项",
           })}
         />
       </FormRow>
 
-      <FormRow label="Maximum capacity" error={errors?.maxCapacity?.message}>
+      <FormRow label="最多可住人数" error={errors?.maxCapacity?.message}>
         <Input
           type="number"
           id="maxCapacity"
           disabled={isCreating}
           {...register("maxCapacity", {
-            required: "This field is required",
+            required: "此字段为必填项",
             min: {
               value: 1,
-              message: "Capacity should be at least 1",
+              message: "可住人数至少应为 1",
             },
           })}
         />
       </FormRow>
 
-      <FormRow label="Regular price" error={errors?.regularPrice?.message}>
+      <FormRow label="日常价格" error={errors?.regularPrice?.message}>
         <Input
           type="number"
           id="regularPrice"
           disabled={isCreating}
           {...register("regularPrice", {
-            required: "This field is required",
+            required: "此字段为必填项",
             min: {
               value: 1,
-              message: "Capacity should be at least 1",
+              message: "价格至少应为 1",
             },
           })}
         />
       </FormRow>
 
-      <FormRow label="Discount" error={errors?.discount?.message}>
+      <FormRow label="优惠金额" error={errors?.discount?.message}>
         <Input
           type="number"
           id="discount"
           disabled={isCreating}
           defaultValue={0}
           {...register("discount", {
-            required: "This field is required",
+            required: "此字段为必填项",
             validate: (value) =>
-              value <= getValues().regularPrice ||
-              "Discount should be less than regular price",
+              value <= getValues().regularPrice || "优惠金额必须小于日常价格",
           })}
         />
       </FormRow>
 
       <FormRow
-        label="Description for website"
+        label="页面描述"
         disabled={isCreating}
         error={errors?.description?.message}
       >
@@ -104,17 +103,17 @@ function CreateCabinForm() {
           defaultValue=""
           disabled={isCreating}
           {...register("description", {
-            required: "This field is required",
+            required: "此字段为必填项",
           })}
         />
       </FormRow>
 
-      <FormRow label="Cabin photo">
+      <FormRow label="房源图片">
         <FileInput
           id="image"
           accept="image/*"
           {...register("image", {
-            required: "This field is required",
+            required: "此字段为必填项",
           })}
         />
       </FormRow>
@@ -122,9 +121,9 @@ function CreateCabinForm() {
       <FormRow>
         {/* type 是 HTML 原生属性 */}
         <Button variation="secondary" type="reset">
-          Cancel
+          取消
         </Button>
-        <Button disabled={isCreating}>Add cabin</Button>
+        <Button disabled={isCreating}>新增房源</Button>
       </FormRow>
     </Form>
   );

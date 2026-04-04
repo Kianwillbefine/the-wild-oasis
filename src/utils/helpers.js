@@ -1,23 +1,28 @@
-import { formatDistance, parseISO } from "date-fns";
-import { enUS, zhCN } from "date-fns/locale";
+import { format, formatDistance, parseISO } from "date-fns";
+import { zhCN } from "date-fns/locale";
 import { differenceInDays } from "date-fns/esm";
 
 // 我们希望这个函数同时兼容 Date 对象和字符串（字符串来自 Supabase）
 export const subtractDates = (dateStr1, dateStr2) =>
   differenceInDays(parseISO(String(dateStr1)), parseISO(String(dateStr2)));
 
-export const formatDistanceFromNow = (dateStr, language = "en") => {
-  const locale = language === "zh-CN" ? zhCN : enUS;
-
-  const distance = formatDistance(parseISO(dateStr), new Date(), {
+export const formatDistanceFromNow = (dateStr) =>
+  formatDistance(parseISO(dateStr), new Date(), {
     addSuffix: true,
-    locale,
+    locale: zhCN,
   });
 
-  return language === "zh-CN"
-    ? distance
-    : distance.replace("about ", "").replace("in", "In");
-};
+export const formatDate = (date) =>
+  format(new Date(date), "yyyy年M月d日", { locale: zhCN });
+
+export const formatDateWithWeekday = (date) =>
+  format(new Date(date), "yyyy年M月d日 EEE", { locale: zhCN });
+
+export const formatDateTime = (date) =>
+  format(new Date(date), "yyyy年M月d日 HH:mm", { locale: zhCN });
+
+export const formatChartDate = (date) =>
+  format(new Date(date), "M月d日", { locale: zhCN });
 
 // Supabase 需要 ISO 日期字符串。但如果直接生成，毫秒或秒数会在每次渲染时变化，不利于比较，所以这里用这个技巧去掉时间部分
 export const getToday = function (options = {}) {
@@ -31,8 +36,9 @@ export const getToday = function (options = {}) {
   return today.toISOString();
 };
 
-export const formatCurrency = (value, language = "en") =>
-  new Intl.NumberFormat(language === "zh-CN" ? "zh-CN" : "en-US", {
+export const formatCurrency = (value) =>
+  new Intl.NumberFormat("zh-CN", {
     style: "currency",
-    currency: "USD",
+    currency: "CNY",
+    currencyDisplay: "narrowSymbol",
   }).format(value);

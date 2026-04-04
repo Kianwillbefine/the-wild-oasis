@@ -1,4 +1,4 @@
-import{s as a,u as t,c as r,j as o,r as s}from"./index-8e4d25fa.js";import{u as c}from"./useMoveBack-f33058cd.js";const d=a.main`
+import{s as a,u as t,c as r,j as o,r as s}from"./index-8ca981ee.js";import{u as c}from"./useMoveBack-fcf43758.js";const d=a.main`
   height: 100vh;
   background-color: var(--color-grey-50);
   display: flex;

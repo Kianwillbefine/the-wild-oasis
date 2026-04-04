@@ -36,7 +36,7 @@ function BookingDetail() {
   const navigate = useNavigate();
 
   if (isLoading) return <Spinner />;
-  if (!booking) return <Empty resourceName="booking" />;
+  if (!booking) return <Empty resourceName="预订" />;
 
   const { status, id: bookingId } = booking;
 
@@ -88,7 +88,7 @@ function BookingDetail() {
 
           <Modal.Window name="delete">
             <ConfirmDelete
-              resourceName="booking"
+              resourceName="预订"
               disabled={isDeleting}
               onConfirm={() =>
                 deleteBooking(bookingId, {

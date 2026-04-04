@@ -26,7 +26,7 @@ const Box = styled.div`
 `;
 
 function CheckinBooking() {
-  const { language, t } = useLanguage();
+  const { t } = useLanguage();
   const [confirmPaid, setConfirmPaid] = useState(false);
   const [addBreakfast, setAddBreakfast] = useState(false);
   const { booking, isLoading } = useBooking();
@@ -88,7 +88,7 @@ function CheckinBooking() {
             id="breakfast"
           >
             {t("checkin.addBreakfast", {
-              price: formatCurrency(optionalBreakfastPrice, language),
+              price: formatCurrency(optionalBreakfastPrice),
             })}
           </Checkbox>
         </Box>
@@ -104,14 +104,10 @@ function CheckinBooking() {
           {t("checkin.confirmPaid", {
             guest: guests.fullName,
             amount: !addBreakfast
-              ? formatCurrency(totalPrice, language)
+              ? formatCurrency(totalPrice)
               : `${formatCurrency(
-                  totalPrice + optionalBreakfastPrice,
-                  language
-                )} (${formatCurrency(totalPrice, language)} + ${formatCurrency(
-                  optionalBreakfastPrice,
-                  language
-                )})`,
+                  totalPrice + optionalBreakfastPrice
+                )} (${formatCurrency(totalPrice)} + ${formatCurrency(optionalBreakfastPrice)})`,
           })}
         </Checkbox>
       </Box>

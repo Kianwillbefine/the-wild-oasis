@@ -1,6 +1,5 @@
 import styled from "styled-components";
-import { format, isToday } from "date-fns";
-import { enUS, zhCN } from "date-fns/locale";
+import { isToday } from "date-fns";
 import {
   HiArrowDownOnSquare,
   HiArrowUpOnSquare,
@@ -15,8 +14,7 @@ import Modal from "../../ui/Modal";
 import Menus from "../../ui/Menus";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 
-import { formatCurrency } from "../../utils/helpers";
-import { formatDistanceFromNow } from "../../utils/helpers";
+import { formatCurrency, formatDate, formatDistanceFromNow } from "../../utils/helpers";
 import { useCheckout } from "../check-in-out/useCheckout";
 import { useDeleteBooking } from "./useDeleteBooking";
 import { useLanguage } from "../../context/LanguageContext";
@@ -62,12 +60,10 @@ function BookingRow({
     cabins: { name: cabinName },
   },
 }) {
-  const { language, t } = useLanguage();
+  const { t } = useLanguage();
   const navigate = useNavigate();
   const { checkout, isCheckingOut } = useCheckout();
   const { deleteBooking, isDeleting } = useDeleteBooking();
-  const dateLocale = language === "zh-CN" ? zhCN : enUS;
-
   const statusToTagName = {
     unconfirmed: "blue",
     "checked-in": "green",
@@ -87,12 +83,11 @@ function BookingRow({
         <span>
           {isToday(new Date(startDate))
             ? t("common.today")
-            : formatDistanceFromNow(startDate, language)}{" "}
+            : formatDistanceFromNow(startDate)}{" "}
           &rarr; {t("dashboardPage.nights", { count: numNights })}
         </span>
         <span>
-          {format(new Date(startDate), "MMM dd yyyy", { locale: dateLocale })} &mdash;{" "}
-          {format(new Date(endDate), "MMM dd yyyy", { locale: dateLocale })}
+          {formatDate(startDate)} &mdash; {formatDate(endDate)}
         </span>
       </Stacked>
 
@@ -104,7 +99,7 @@ function BookingRow({
             : t("bookings.checkedOut")}
       </Tag>
 
-      <Amount>{formatCurrency(totalPrice, language)}</Amount>
+      <Amount>{formatCurrency(totalPrice)}</Amount>
 
       <Modal>
         <Menus.Menu>
@@ -144,7 +139,7 @@ function BookingRow({
 
         <Modal.Window name="delete">
           <ConfirmDelete
-            resourceName="booking"
+            resourceName="预订"
             disabled={isDeleting}
             onConfirm={() => deleteBooking(bookingId)}
           />

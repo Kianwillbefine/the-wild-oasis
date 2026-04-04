@@ -44,10 +44,10 @@ function CabinTable() {
     <Table role="table">
       <TableHeader role="row">
         <div></div>
-        <div>Cabin</div>
-        <div>Capacity</div>
-        <div>Price</div>
-        <div>Discount</div>
+        <div>房源</div>
+        <div>可住人数</div>
+        <div>价格</div>
+        <div>优惠</div>
         <div></div>
       </TableHeader>
       {cabins.map((cabin) => (

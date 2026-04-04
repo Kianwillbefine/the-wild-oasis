@@ -1,4 +1,4 @@
-import{s as e,M as o}from"./index-8e4d25fa.js";const s=e.input`
+import{s as e,M as o}from"./index-8ca981ee.js";const s=e.input`
   border: 1px solid var(--color-grey-300);
   background-color: var(--color-grey-0);
   border-radius: var(--border-radius-sm);
@@ -8,7 +8,7 @@ import{s as e,M as o}from"./index-8e4d25fa.js";const s=e.input`
   ${r=>r.type==="regular"&&o`
       padding: 2.4rem 4rem;
 
-      /* Box */
+      /* 盒子容器 */
       background-color: var(--color-grey-0);
       border: 1px solid var(--color-grey-100);
       border-radius: var(--border-radius-md);

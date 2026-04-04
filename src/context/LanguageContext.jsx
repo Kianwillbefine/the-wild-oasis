@@ -1,5 +1,4 @@
 import { createContext, useContext, useEffect } from "react";
-import { useLocalStorageState } from "../hooks/useLocalStorageState";
 import { dictionaries, fallbackLanguage } from "../i18n/translations";
 
 const LanguageContext = createContext();
@@ -9,21 +8,18 @@ function getNestedValue(obj, path) {
 }
 
 function LanguageProvider({ children }) {
-  const [language, setLanguage] = useLocalStorageState(fallbackLanguage, "language");
+  const language = fallbackLanguage;
 
   useEffect(
     function () {
-      document.documentElement.lang = language === "zh-CN" ? "zh-CN" : "en";
+      document.documentElement.lang = language;
     },
     [language]
   );
 
   function t(path, params = {}) {
-    const currentDictionary = dictionaries[language] ?? dictionaries[fallbackLanguage];
-    const fallbackDictionary = dictionaries[fallbackLanguage];
-
-    const message =
-      getNestedValue(currentDictionary, path) ?? getNestedValue(fallbackDictionary, path) ?? path;
+    const dictionary = dictionaries[language] ?? dictionaries[fallbackLanguage];
+    const message = getNestedValue(dictionary, path) ?? path;
 
     return Object.entries(params).reduce(
       (translatedText, [key, value]) =>
@@ -32,7 +28,7 @@ function LanguageProvider({ children }) {
     );
   }
 
-  const value = { language, setLanguage, t };
+  const value = { language, t };
 
   return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>;
 }

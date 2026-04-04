@@ -1,9 +1,9 @@
-import{s as t,j as o,c as r,u as P,V as M,d as s,f as C,W as E,X as I,Y as j,Z as F,e as l,_ as H,m as z,$ as N}from"./index-8e4d25fa.js";import{i as O}from"./index-22586340.js";const $=t.div`
+import{s as a,j as o,c as r,u as D,V as C,W as b,f as I,X as j,Y as F,Z as H,_ as z,e as s,$ as N,a0 as O,m as $,a1 as S}from"./index-8ca981ee.js";import{i as T}from"./index-7ec0c4bd.js";const W=a.div`
   display: flex;
   align-items: center;
   gap: 1.6rem;
   padding: 0.8rem 0;
-`,S=t.span`
+`,G=a.span`
   display: flex;
   align-items: center;
   gap: 0.8rem;
@@ -14,14 +14,14 @@ import{s as t,j as o,c as r,u as P,V as M,d as s,f as C,W as E,X as I,Y as j,Z a
     height: 2rem;
     color: var(--color-brand-600);
   }
-`;function c({icon:n,label:e,children:a}){return o($,{children:[o(S,{children:[n,r("span",{children:e})]}),a]})}const G=t.section`
-  /* Box */
+`;function l({icon:n,label:e,children:t}){return o(W,{children:[o(G,{children:[n,r("span",{children:e})]}),t]})}const L=a.section`
+  /* 盒子容器 */
   background-color: var(--color-grey-0);
   border: 1px solid var(--color-grey-100);
   border-radius: var(--border-radius-md);
 
   overflow: hidden;
-`,L=t.header`
+`,q=a.header`
   background-color: var(--color-brand-500);
   padding: 2rem 4rem;
   color: #e0e7ff;
@@ -49,9 +49,9 @@ import{s as t,j as o,c as r,u as P,V as M,d as s,f as C,W as E,X as I,Y as j,Z a
     font-size: 2rem;
     margin-left: 4px;
   }
-`,T=t.section`
+`,_=a.section`
   padding: 3.2rem 4rem 1.2rem;
-`,q=t.div`
+`,A=a.div`
   display: flex;
   align-items: center;
   gap: 1.2rem;
@@ -62,7 +62,7 @@ import{s as t,j as o,c as r,u as P,V as M,d as s,f as C,W as E,X as I,Y as j,Z a
     font-weight: 500;
     color: var(--color-grey-700);
   }
-`,W=t.div`
+`,K=a.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -84,16 +84,16 @@ import{s as t,j as o,c as r,u as P,V as M,d as s,f as C,W as E,X as I,Y as j,Z a
     width: 2.4rem;
     color: currentColor !important;
   }
-`,_=t.footer`
+`,M=a.footer`
   padding: 1.6rem 4rem;
   font-size: 1.2rem;
   color: var(--color-grey-500);
   text-align: right;
-`;function Q({booking:n}){const{t:e}=P(),{created_at:a,startDate:i,endDate:h,numNights:f,numGuests:d,cabinPrice:y,extrasPrice:p,totalPrice:v,hasBreakfast:g,observations:m,isPaid:u,guests:{fullName:k,email:x,country:w,countryFlag:b,nationalID:B},cabins:{name:D}}=n;return o(G,{children:[o(L,{children:[o("div",{children:[r(M,{}),r("p",{children:e("bookings.nightsInCabin",{nights:f,cabin:D})})]}),o("p",{children:[s(new Date(i),"EEE, MMM dd yyyy")," (",O(new Date(i))?e("common.today"):C(i),") — ",s(new Date(h),"EEE, MMM dd yyyy")]})]}),o(T,{children:[o(q,{children:[b&&r(E,{src:b,alt:`Flag of ${w}`}),o("p",{children:[k," ",d>1?e("bookings.guestCount",{count:d-1}):""]}),r("span",{children:"•"}),r("p",{children:x}),r("span",{children:"•"}),r("p",{children:e("bookings.nationalId",{id:B})})]}),m&&r(c,{icon:r(I,{}),label:e("bookings.observations"),children:m}),r(c,{icon:r(j,{}),label:e("bookings.breakfastIncluded"),children:e(g?"bookings.yes":"bookings.no")}),o(W,{isPaid:u,children:[o(c,{icon:r(F,{}),label:e("bookings.totalPrice"),children:[l(v),g&&` ${e("bookings.totalWithBreakfast",{cabinPrice:l(y),breakfastPrice:l(p)})}`]}),r("p",{children:e(u?"bookings.paid":"bookings.willPayAtProperty")})]})]}),r(_,{children:r("p",{children:e("bookings.bookedOn",{date:s(new Date(a),"EEE, MMM dd yyyy, p")})})})]})}const V=t.div`
+`;function X({booking:n}){const{t:e}=D(),{created_at:t,startDate:i,endDate:h,numNights:f,numGuests:c,cabinPrice:p,extrasPrice:y,totalPrice:k,hasBreakfast:d,observations:g,isPaid:m,guests:{fullName:v,email:x,country:w,countryFlag:u,nationalID:B},cabins:{name:P}}=n;return o(L,{children:[o(q,{children:[o("div",{children:[r(C,{}),r("p",{children:e("bookings.nightsInCabin",{nights:f,cabin:P})})]}),o("p",{children:[b(i)," (",T(new Date(i))?e("common.today"):I(i),") — ",b(h)]})]}),o(_,{children:[o(A,{children:[u&&r(j,{src:u,alt:`Flag of ${w}`}),o("p",{children:[v," ",c>1?e("bookings.guestCount",{count:c-1}):""]}),r("span",{children:"•"}),r("p",{children:x}),r("span",{children:"•"}),r("p",{children:e("bookings.nationalId",{id:B})})]}),g&&r(l,{icon:r(F,{}),label:e("bookings.observations"),children:g}),r(l,{icon:r(H,{}),label:e("bookings.breakfastIncluded"),children:e(d?"bookings.yes":"bookings.no")}),o(K,{isPaid:m,children:[o(l,{icon:r(z,{}),label:e("bookings.totalPrice"),children:[s(k),d&&` ${e("bookings.totalWithBreakfast",{cabinPrice:s(p),breakfastPrice:s(y)})}`]}),r("p",{children:e(m?"bookings.paid":"bookings.willPayAtProperty")})]})]}),r(M,{children:r("p",{children:e("bookings.bookedOn",{date:N(t)})})})]})}const Y=a.div`
   display: flex;
   gap: 1.2rem;
   justify-content: flex-end;
-`,X=t.button`
+`,Z=a.button`
   color: var(--color-brand-600);
   font-weight: 500;
   text-align: center;
@@ -106,4 +106,4 @@ import{s as t,j as o,c as r,u as P,V as M,d as s,f as C,W as E,X as I,Y as j,Z a
   &:active {
     color: var(--color-brand-700);
   }
-`;function Y(){const{bookingId:n}=H(),{isLoading:e,data:a,error:i}=z({queryKey:["booking",n],queryFn:()=>N(n),retry:!1});return{isLoading:e,error:i,booking:a}}export{X as B,Q as a,V as b,Y as u};
+`;function E(){const{bookingId:n}=O(),{isLoading:e,data:t,error:i}=$({queryKey:["booking",n],queryFn:()=>S(n),retry:!1});return{isLoading:e,error:i,booking:t}}export{Z as B,X as a,Y as b,E as u};

@@ -11,9 +11,9 @@ import {
   YAxis,
 } from "recharts";
 import { useDarkMode } from "../../context/DarkModeContext";
-import { eachDayOfInterval, format, isSameDay, subDays } from "date-fns";
-import { enUS, zhCN } from "date-fns/locale";
+import { eachDayOfInterval, isSameDay, subDays } from "date-fns";
 import { useLanguage } from "../../context/LanguageContext";
+import { formatChartDate, formatDate } from "../../utils/helpers";
 
 const StyledSalesChart = styled(DashboardBox)`
   grid-column: 1 / -1;
@@ -26,9 +26,8 @@ const StyledSalesChart = styled(DashboardBox)`
 `;
 
 function SalesChart({ bookings, numDays }) {
-  const { language, t } = useLanguage();
+  const { t } = useLanguage();
   const { isDarkMode } = useDarkMode();
-  const dateLocale = language === "zh-CN" ? zhCN : enUS;
 
   const allDates = eachDayOfInterval({
     start: subDays(new Date(), numDays - 1),
@@ -37,7 +36,7 @@ function SalesChart({ bookings, numDays }) {
 
   const data = allDates.map((date) => {
     return {
-      label: format(date, "MMM dd", { locale: dateLocale }),
+      label: formatChartDate(date),
       totalSales: bookings
         .filter((booking) => isSameDay(date, new Date(booking.created_at)))
         .reduce((acc, cur) => acc + cur.totalPrice, 0),
@@ -65,8 +64,8 @@ function SalesChart({ bookings, numDays }) {
     <StyledSalesChart>
       <Heading as="h2">
         {t("dashboardPage.salesTitle", {
-          start: format(allDates.at(0), "MMM dd yyyy", { locale: dateLocale }),
-          end: format(allDates.at(-1), "MMM dd yyyy", { locale: dateLocale }),
+          start: formatDate(allDates.at(0)),
+          end: formatDate(allDates.at(-1)),
         })}
       </Heading>
 
@@ -78,7 +77,7 @@ function SalesChart({ bookings, numDays }) {
             tickLine={{ stroke: colors.text }}
           />
           <YAxis
-            unit="$"
+            unit="¥"
             tick={{ fill: colors.text }}
             tickLine={{ stroke: colors.text }}
           />
@@ -91,7 +90,7 @@ function SalesChart({ bookings, numDays }) {
             fill={colors.totalSales.fill}
             strokeWidth={2}
             name={t("dashboardPage.totalSales")}
-            unit="$"
+            unit="¥"
           />
           <Area
             dataKey="extrasSales"
@@ -100,7 +99,7 @@ function SalesChart({ bookings, numDays }) {
             fill={colors.extrasSales.fill}
             strokeWidth={2}
             name={t("dashboardPage.extrasSales")}
-            unit="$"
+            unit="¥"
           />
         </AreaChart>
       </ResponsiveContainer>

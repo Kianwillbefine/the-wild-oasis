@@ -1,4 +1,4 @@
-import{s as v,j as d,c as e,u as y,k as I,a as N,t as Q,Q as $,w as b,C as f,S as q,q as G,R as M,r as R,e as c,B}from"./index-8e4d25fa.js";import{u as z,B as A,a as D,b as H}from"./useBooking-d8550b35.js";import{u as T}from"./useMoveBack-f33058cd.js";import{a as J}from"./useSettings-a2ca8a8d.js";import"./index-22586340.js";const K=v.div`
+import{s as v,j as d,c as e,u as y,k as I,a as N,t as Q,Q as $,w as b,C as f,S as q,q as G,R as M,r as R,e as c,B}from"./index-8ca981ee.js";import{u as z,B as A,a as D,b as H}from"./useBooking-5043cb38.js";import{u as T}from"./useMoveBack-fcf43758.js";import{a as J}from"./useSettings-59cf4a94.js";import"./index-7ec0c4bd.js";const K=v.div`
   display: flex;
   gap: 1.6rem;
 
@@ -22,7 +22,7 @@ import{s as v,j as d,c as e,u as y,k as I,a as N,t as Q,Q as $,w as b,C as f,S a
     gap: 0.8rem;
   }
 `;function x({checked:a,onChange:i,disabled:t=!1,id:s,children:r}){return d(K,{children:[e("input",{type:"checkbox",id:s,checked:a,onChange:i,disabled:t}),e("label",{htmlFor:t?"":s,children:r})]})}function O(){const{t:a}=y(),i=I(),t=N(),{mutate:s,isLoading:r}=Q({mutationFn:({bookingId:n,breakfast:k})=>$(n,{status:"checked-in",isPaid:!0,...k}),onSuccess:n=>{b.success(a("bookings.checkinSuccess",{id:n.id})),i.invalidateQueries({active:!0}),t("/")},onError:()=>b.error(a("bookings.checkinError"))});return{checkin:s,isCheckingIn:r}}const C=v.div`
-  /* Box */
+  /* 盒子容器 */
   background-color: var(--color-grey-0);
   border: 1px solid var(--color-grey-100);
   border-radius: var(--border-radius-md);

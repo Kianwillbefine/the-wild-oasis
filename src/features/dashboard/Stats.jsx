@@ -9,7 +9,7 @@ import { formatCurrency } from "../../utils/helpers";
 import { useLanguage } from "../../context/LanguageContext";
 
 function Stats({ bookings, confirmedStays, numDays, cabinCount }) {
-  const { language, t } = useLanguage();
+  const { t } = useLanguage();
   // 1. 预订数
   const numBookings = bookings.length;
 
@@ -37,7 +37,7 @@ function Stats({ bookings, confirmedStays, numDays, cabinCount }) {
         title={t("dashboardPage.statSales")}
         color="green"
         icon={<HiOutlineBanknotes />}
-        value={formatCurrency(sales, language)}
+        value={formatCurrency(sales)}
       />
       <Stat
         title={t("dashboardPage.statCheckins")}

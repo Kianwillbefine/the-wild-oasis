@@ -1,4 +1,4 @@
-import{s as o,j as d,c as s}from"./index-8e4d25fa.js";const i=o.div`
+import{s as o,j as d,c as s}from"./index-8ca981ee.js";const i=o.div`
   display: grid;
   align-items: center;
   grid-template-columns: 24rem 1fr 1.2fr;

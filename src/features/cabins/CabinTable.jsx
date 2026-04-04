@@ -13,7 +13,7 @@ function CabinTable() {
   const [searchParams] = useSearchParams();
 
   if (isLoading) return <Spinner />;
-  if (!cabins.length) return <Empty resourceName="cabins" />;
+  if (!cabins.length) return <Empty resourceName="房源" />;
 
   // 1) 过滤
   const filterValue = searchParams.get("discount") || "all";

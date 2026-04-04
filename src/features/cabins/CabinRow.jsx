@@ -51,7 +51,7 @@ const Discount = styled.div`
 `;
 
 function CabinRow({ cabin }) {
-  const { language, t } = useLanguage();
+  const { t } = useLanguage();
   const { isDeleting, deleteCabin } = useDeleteCabin();
   const { isCreating, createCabin } = useCreateCabin();
 
@@ -81,9 +81,9 @@ function CabinRow({ cabin }) {
       <Img src={image} />
       <Cabin>{name}</Cabin>
       <div>{t("cabins.fitsUpTo", { count: maxCapacity })}</div>
-      <Price>{formatCurrency(regularPrice, language)}</Price>
+      <Price>{formatCurrency(regularPrice)}</Price>
       {discount ? (
-        <Discount>{formatCurrency(discount, language)}</Discount>
+        <Discount>{formatCurrency(discount)}</Discount>
       ) : (
         <span>&mdash;</span>
       )}
@@ -116,7 +116,7 @@ function CabinRow({ cabin }) {
 
             <Modal.Window name="delete">
               <ConfirmDelete
-                resourceName="cabins"
+                resourceName="房源"
                 disabled={isDeleting}
                 onConfirm={() => deleteCabin(cabinId)}
               />
