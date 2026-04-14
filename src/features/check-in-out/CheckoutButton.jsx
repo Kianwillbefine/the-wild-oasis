@@ -1,9 +1,7 @@
 import Button from "../../ui/Button";
 import { useCheckout } from "./useCheckout";
-import { useLanguage } from "../../context/LanguageContext";
 
 function CheckoutButton({ bookingId }) {
-  const { t } = useLanguage();
   const { checkout, isCheckingOut } = useCheckout();
 
   return (
@@ -13,7 +11,7 @@ function CheckoutButton({ bookingId }) {
       onClick={() => checkout(bookingId)}
       disabled={isCheckingOut}
     >
-      {t("common.checkOut")}
+      退房
     </Button>
   );
 }

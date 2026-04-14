@@ -15,7 +15,6 @@ import Checkbox from "../../ui/Checkbox";
 import { formatCurrency } from "../../utils/helpers";
 import { useCheckin } from "./useCheckin";
 import { useSettings } from "../settings/useSettings";
-import { useLanguage } from "../../context/LanguageContext";
 
 const Box = styled.div`
   /* 盒子容器 */
@@ -26,7 +25,6 @@ const Box = styled.div`
 `;
 
 function CheckinBooking() {
-  const { t } = useLanguage();
   const [confirmPaid, setConfirmPaid] = useState(false);
   const [addBreakfast, setAddBreakfast] = useState(false);
   const { booking, isLoading } = useBooking();
@@ -71,8 +69,8 @@ function CheckinBooking() {
   return (
     <>
       <Row type="horizontal">
-        <Heading as="h1">{t("pages.checkin.title", { id: bookingId })}</Heading>
-        <ButtonText onClick={moveBack}>&larr; {t("common.back")}</ButtonText>
+        <Heading as="h1">为预订 #{bookingId} 办理入住</Heading>
+        <ButtonText onClick={moveBack}>&larr; 返回</ButtonText>
       </Row>
 
       <BookingDataBox booking={booking} />
@@ -87,9 +85,7 @@ function CheckinBooking() {
             }}
             id="breakfast"
           >
-            {t("checkin.addBreakfast", {
-              price: formatCurrency(optionalBreakfastPrice),
-            })}
+            {`要为这笔预订添加 ${formatCurrency(optionalBreakfastPrice)} 的早餐吗？`}
           </Checkbox>
         </Box>
       )}
@@ -101,23 +97,20 @@ function CheckinBooking() {
           disabled={confirmPaid || isCheckingIn}
           id="confirm"
         >
-          {t("checkin.confirmPaid", {
-            guest: guests.fullName,
-            amount: !addBreakfast
+          {`我确认 ${guests.fullName} 已支付总金额 ${
+            !addBreakfast
               ? formatCurrency(totalPrice)
-              : `${formatCurrency(
-                  totalPrice + optionalBreakfastPrice
-                )} (${formatCurrency(totalPrice)} + ${formatCurrency(optionalBreakfastPrice)})`,
-          })}
+              : `${formatCurrency(totalPrice + optionalBreakfastPrice)} (${formatCurrency(totalPrice)} + ${formatCurrency(optionalBreakfastPrice)})`
+          }`}
         </Checkbox>
       </Box>
 
       <ButtonGroup>
         <Button onClick={handleCheckin} disabled={!confirmPaid || isCheckingIn}>
-          {t("checkin.action", { id: bookingId })}
+          {`为预订 #${bookingId} 办理入住`}
         </Button>
         <Button variation="secondary" onClick={moveBack}>
-          {t("common.back")}
+          返回
         </Button>
       </ButtonGroup>
     </>

@@ -5,10 +5,8 @@ import Input from "../../ui/Input";
 import FormRowVertical from "../../ui/FormRowVertical";
 import { useLogin } from "./useLogin";
 import SpinnerMini from "../../ui/SpinnerMini";
-import { useLanguage } from "../../context/LanguageContext";
 
 function LoginForm() {
-  const { t } = useLanguage();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { login, isLoading } = useLogin();
@@ -29,7 +27,7 @@ function LoginForm() {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <FormRowVertical label={t("auth.email")}>
+      <FormRowVertical label="邮箱地址">
         <Input
           type="email"
           id="email"
@@ -40,7 +38,7 @@ function LoginForm() {
         />
       </FormRowVertical>
 
-      <FormRowVertical label={t("auth.password")}>
+      <FormRowVertical label="密码">
         <Input
           type="password"
           id="password"
@@ -52,7 +50,7 @@ function LoginForm() {
       </FormRowVertical>
       <FormRowVertical>
         <Button size="large" disabled={isLoading}>
-          {!isLoading ? t("auth.loginButton") : <SpinnerMini />}
+          {!isLoading ? "登录" : <SpinnerMini />}
         </Button>
       </FormRowVertical>
     </Form>

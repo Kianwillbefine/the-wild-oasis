@@ -1,15 +1,13 @@
 import Button from "../../ui/Button";
 import CreateCabinForm from "./CreateCabinForm";
 import Modal from "../../ui/Modal";
-import { useLanguage } from "../../context/LanguageContext";
 
 function AddCabin() {
-  const { t } = useLanguage();
   return (
     <div>
       <Modal>
         <Modal.Open opens="cabin-form">
-          <Button>{t("cabins.addCabin")}</Button>
+          <Button>新增房源</Button>
         </Modal.Open>
         <Modal.Window name="cabin-form">
           <CreateCabinForm />

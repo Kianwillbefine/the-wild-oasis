@@ -5,10 +5,8 @@ import FormRow from "../../ui/FormRow";
 import Input from "../../ui/Input";
 
 import { useUpdateUser } from "./useUpdateUser";
-import { useLanguage } from "../../context/LanguageContext";
 
 function UpdatePasswordForm() {
-  const { t } = useLanguage();
   const { register, handleSubmit, formState, getValues, reset } = useForm();
   const { errors } = formState;
 
@@ -21,7 +19,7 @@ function UpdatePasswordForm() {
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <FormRow
-        label={t("auth.newPassword")}
+        label="新密码（至少 8 位）"
         error={errors?.password?.message}
       >
         <Input
@@ -30,17 +28,17 @@ function UpdatePasswordForm() {
           autoComplete="current-password"
           disabled={isUpdating}
           {...register("password", {
-            required: t("auth.required"),
+            required: "此字段为必填项",
             minLength: {
               value: 8,
-              message: t("auth.minPassword"),
+              message: "密码至少需要 8 个字符",
             },
           })}
         />
       </FormRow>
 
       <FormRow
-        label={t("auth.confirmPassword")}
+        label="确认密码"
         error={errors?.passwordConfirm?.message}
       >
         <Input
@@ -49,17 +47,17 @@ function UpdatePasswordForm() {
           id="passwordConfirm"
           disabled={isUpdating}
           {...register("passwordConfirm", {
-            required: t("auth.required"),
+            required: "此字段为必填项",
             validate: (value) =>
-              getValues().password === value || t("auth.passwordsMatch"),
+              getValues().password === value || "两次输入的密码必须一致",
           })}
         />
       </FormRow>
       <FormRow>
         <Button onClick={reset} type="reset" variation="secondary">
-          {t("common.cancel")}
+          取消
         </Button>
-        <Button disabled={isUpdating}>{t("auth.updatePassword")}</Button>
+        <Button disabled={isUpdating}>更新密码</Button>
       </FormRow>
     </Form>
   );

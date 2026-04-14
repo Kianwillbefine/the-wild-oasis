@@ -17,7 +17,6 @@ import ConfirmDelete from "../../ui/ConfirmDelete";
 import { formatCurrency, formatDate, formatDistanceFromNow } from "../../utils/helpers";
 import { useCheckout } from "../check-in-out/useCheckout";
 import { useDeleteBooking } from "./useDeleteBooking";
-import { useLanguage } from "../../context/LanguageContext";
 
 const Cabin = styled.div`
   font-size: 1.6rem;
@@ -60,7 +59,6 @@ function BookingRow({
     cabins: { name: cabinName },
   },
 }) {
-  const { t } = useLanguage();
   const navigate = useNavigate();
   const { checkout, isCheckingOut } = useCheckout();
   const { deleteBooking, isDeleting } = useDeleteBooking();
@@ -82,9 +80,9 @@ function BookingRow({
       <Stacked>
         <span>
           {isToday(new Date(startDate))
-            ? t("common.today")
+            ? "今天"
             : formatDistanceFromNow(startDate)}{" "}
-          &rarr; {t("dashboardPage.nights", { count: numNights })}
+          &rarr; {numNights} 晚
         </span>
         <span>
           {formatDate(startDate)} &mdash; {formatDate(endDate)}
@@ -93,10 +91,10 @@ function BookingRow({
 
       <Tag type={statusToTagName[status]}>
         {status === "unconfirmed"
-          ? t("bookings.unconfirmed")
+          ? "未确认"
           : status === "checked-in"
-            ? t("bookings.checkedIn")
-            : t("bookings.checkedOut")}
+            ? "已入住"
+            : "已退房"}
       </Tag>
 
       <Amount>{formatCurrency(totalPrice)}</Amount>
@@ -109,7 +107,7 @@ function BookingRow({
               icon={<HiEye />}
               onClick={() => navigate(`/bookings/${bookingId}`)}
             >
-              {t("bookings.seeDetails")}
+              查看详情
             </Menus.Button>
 
             {status === "unconfirmed" && (
@@ -117,7 +115,7 @@ function BookingRow({
                 icon={<HiArrowDownOnSquare />}
                 onClick={() => navigate(`/checkin/${bookingId}`)}
               >
-                {t("common.checkIn")}
+                入住
               </Menus.Button>
             )}
 
@@ -127,12 +125,12 @@ function BookingRow({
                 onClick={() => checkout(bookingId)}
                 disabled={isCheckingOut}
               >
-                {t("common.checkOut")}
+                退房
               </Menus.Button>
             )}
 
             <Modal.Open opens="delete">
-              <Menus.Button icon={<HiTrash />}>{t("bookings.deleteBooking")}</Menus.Button>
+              <Menus.Button icon={<HiTrash />}>删除预订</Menus.Button>
             </Modal.Open>
           </Menus.List>
         </Menus.Menu>

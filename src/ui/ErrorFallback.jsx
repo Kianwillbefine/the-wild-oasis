@@ -2,7 +2,6 @@ import styled from "styled-components";
 import Heading from "./Heading";
 import GlobalStyles from "../styles/GlobalStyles";
 import Button from "./Button";
-import { useLanguage } from "../context/LanguageContext";
 
 const StyledErrorFallback = styled.main`
   height: 100vh;
@@ -33,17 +32,15 @@ const Box = styled.div`
 `;
 
 function ErrorFallback({ error, resetErrorBoundary }) {
-  const { t } = useLanguage();
-
   return (
     <>
       <GlobalStyles />
       <StyledErrorFallback>
         <Box>
-          <Heading as="h1">{t("ui.errorTitle")}</Heading>
+          <Heading as="h1">发生错误</Heading>
           <p>{error.message}</p>
           <Button size="large" onClick={resetErrorBoundary}>
-            {t("common.tryAgain")}
+            重试
           </Button>
         </Box>
       </StyledErrorFallback>

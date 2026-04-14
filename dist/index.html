@@ -1,26 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Sono:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>The Wild Oasis</title>
-    <script type="module" crossorigin src="/assets/index-8ca981ee.js"></script>
-  </head>
-  <body>
-    <div id="root"></div>
-    
-  </body>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Sono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <title>The Wild Oasis</title>
+  <script type="module" crossorigin src="/assets/index-9609f675.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/supabase-1545db47.js">
+  <link rel="modulepreload" crossorigin href="/assets/vendor-75fc689b.js">
+  <link rel="modulepreload" crossorigin href="/assets/query-cdedaf21.js">
+  <link rel="modulepreload" crossorigin href="/assets/icons-e81217d1.js">
+</head>
+
+
+<body>
+  <div id="root">
+    <div id="app-boot-shell" style="
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f8fafc;
+        color: #0f172a;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      ">
+      <div style="
+          width: 100%;
+          max-width: 420px;
+          padding: 32px;
+          border: 1px solid #e2e8f0;
+          border-radius: 12px;
+          background: #ffffff;
+          text-align: center;
+          box-sizing: border-box;
+        ">
+        <h1 style="margin: 0 0 12px; font-size: 24px;">页面加载中</h1>
+        <p style="margin: 0; color: #475569;">如果长时间无响应，请稍后刷新页面。</p>
+      </div>
+    </div>
+  </div>
+  <script>
+    window.__APP_BOOTSTRAPPED__ = false;
+    window.__APP_BOOT_TIMEOUT__ = window.setTimeout(function () {
+      if (window.__APP_BOOTSTRAPPED__) return;
+
+      var root = document.getElementById("root");
+      if (!root) return;
+
+      root.innerHTML = `
+        <div style="
+          min-height: 100vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: #f8fafc;
+          color: #0f172a;
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        ">
+          <div style="
+            width: 100%;
+            max-width: 420px;
+            padding: 32px;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            background: #ffffff;
+            text-align: center;
+            box-sizing: border-box;
+          ">
+            <h1 style="margin: 0 0 12px; font-size: 24px;">页面加载失败</h1>
+            <p style="margin: 0 0 20px; color: #475569;">
+              应用启动超时，请检查网络后刷新重试。
+            </p>
+            <button
+              onclick="window.location.reload()"
+              style="
+                padding: 10px 16px;
+                border: none;
+                border-radius: 8px;
+                background: #2563eb;
+                color: #fff;
+                cursor: pointer;
+                font-size: 14px;
+              "
+            >
+              刷新页面
+            </button>
+          </div>
+        </div>
+      `;
+    }, 5000);
+  </script>
+  
+</body>
+
+
+
 </html>

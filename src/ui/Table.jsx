@@ -1,6 +1,5 @@
 import { createContext, useContext } from "react";
 import styled from "styled-components";
-import { useLanguage } from "../context/LanguageContext";
 
 const StyledTable = styled.div`
   border: 1px solid var(--color-grey-200);
@@ -89,8 +88,7 @@ function Row({ children }) {
 }
 
 function Body({ data, render }) {
-  const { t } = useLanguage();
-  if (!data.length) return <Empty>{t("common.emptyData")}</Empty>;
+  if (!data.length) return <Empty>当前暂无可显示的数据</Empty>;
 
   return <StyledBody>{data.map(render)}</StyledBody>;
 }

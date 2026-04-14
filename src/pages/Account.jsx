@@ -2,22 +2,19 @@ import UpdatePasswordForm from "../features/authentication/UpdatePasswordForm";
 import UpdateUserDataForm from "../features/authentication/UpdateUserDataForm";
 import Heading from "../ui/Heading";
 import Row from "../ui/Row";
-import { useLanguage } from "../context/LanguageContext";
 
 function Account() {
-  const { t } = useLanguage();
-
   return (
     <>
-      <Heading as="h1">{t("pages.account.title")}</Heading>
+      <Heading as="h1">更新你的账户</Heading>
 
       <Row>
-        <Heading as="h3">{t("pages.account.userData")}</Heading>
+        <Heading as="h3">更新用户资料</Heading>
         <UpdateUserDataForm />
       </Row>
 
       <Row>
-        <Heading as="h3">{t("pages.account.password")}</Heading>
+        <Heading as="h3">更新密码</Heading>
         <UpdatePasswordForm />
       </Row>
     </>

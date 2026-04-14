@@ -1,41 +1,27 @@
-import styled from "styled-components";
-import { useUser } from "../features/authentication/useUser";
-import Spinner from "./Spinner";
-import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-
-const FullPage = styled.div`
-  height: 100vh;
-  background-color: var(--color-grey-50);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
+import { useLocation, useNavigate } from "react-router-dom";
+import { AUTH_STATUS, useAuthStore } from "../stores/authStore";
 
 function ProtectedRoute({ children }) {
   const navigate = useNavigate();
+  const location = useLocation();
+  const authStatus = useAuthStore((state) => state.authStatus);
+  const setRedirectAfterLogin = useAuthStore((state) => state.setRedirectAfterLogin);
 
-  // 1. 加载当前已认证用户
-  const { isLoading, isAuthenticated } = useUser();
-
-  // 2. 如果没有已认证用户，就重定向到 /login
   useEffect(
     function () {
-      if (!isAuthenticated && !isLoading) navigate("/login");
+      if (authStatus !== AUTH_STATUS.ANONYMOUS) return;
+
+      const redirectPath = `${location.pathname}${location.search}${location.hash}`;
+      setRedirectAfterLogin(redirectPath);
+      navigate("/login", { replace: true });
     },
-    [isAuthenticated, isLoading, navigate]
+    [authStatus, location, navigate, setRedirectAfterLogin]
   );
 
-  // 3. 加载过程中显示 spinner
-  if (isLoading)
-    return (
-      <FullPage>
-        <Spinner />
-      </FullPage>
-    );
+  if (authStatus === AUTH_STATUS.AUTHENTICATED) return children;
 
-  // 4. 如果用户存在，就渲染应用
-  if (isAuthenticated) return children;
+  return null;
 }
 
 export default ProtectedRoute;

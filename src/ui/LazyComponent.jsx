@@ -1,4 +1,4 @@
-﻿import React, { Suspense, lazy } from "react";
+import React, { Suspense, lazy } from "react";
 import Spinner from "./Spinner";
 import toast from "react-hot-toast";
 

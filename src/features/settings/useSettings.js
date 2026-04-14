@@ -9,6 +9,7 @@ export function useSettings() {
   } = useQuery({
     queryKey: ["settings"],
     queryFn: getSettings,
+    staleTime: 30 * 60 * 1000,
   });
 
   return { isLoading, error, settings };

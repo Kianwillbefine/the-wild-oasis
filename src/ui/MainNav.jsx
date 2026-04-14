@@ -2,12 +2,12 @@ import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import {
   HiOutlineCalendarDays,
+  HiOutlineClipboardDocumentList,
   HiOutlineCog6Tooth,
   HiOutlineHome,
   HiOutlineHomeModern,
   HiOutlineUsers,
 } from "react-icons/hi2";
-import { useLanguage } from "../context/LanguageContext";
 
 const NavList = styled.ul`
   display: flex;
@@ -55,39 +55,43 @@ const StyledNavLink = styled(NavLink)`
 `;
 
 function MainNav() {
-  const { t } = useLanguage();
-
   return (
     <nav>
       <NavList>
         <li>
           <StyledNavLink to="/dashboard">
             <HiOutlineHome />
-            <span>{t("nav.dashboard")}</span>
+            <span>首页</span>
           </StyledNavLink>
         </li>
         <li>
           <StyledNavLink to="/bookings">
             <HiOutlineCalendarDays />
-            <span>{t("nav.bookings")}</span>
+            <span>预订</span>
           </StyledNavLink>
         </li>
         <li>
           <StyledNavLink to="/cabins">
             <HiOutlineHomeModern />
-            <span>{t("nav.cabins")}</span>
+            <span>房源</span>
           </StyledNavLink>
         </li>
         <li>
           <StyledNavLink to="/users">
             <HiOutlineUsers />
-            <span>{t("nav.users")}</span>
+            <span>用户</span>
+          </StyledNavLink>
+        </li>
+        <li>
+          <StyledNavLink to="/orders">
+            <HiOutlineClipboardDocumentList />
+            <span>订单流水</span>
           </StyledNavLink>
         </li>
         <li>
           <StyledNavLink to="/settings">
             <HiOutlineCog6Tooth />
-            <span>{t("nav.settings")}</span>
+            <span>设置</span>
           </StyledNavLink>
         </li>
       </NavList>

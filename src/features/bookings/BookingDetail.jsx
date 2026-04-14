@@ -18,7 +18,6 @@ import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import { useDeleteBooking } from "./useDeleteBooking";
 import Empty from "../../ui/Empty";
-import { useLanguage } from "../../context/LanguageContext";
 
 const HeadingGroup = styled.div`
   display: flex;
@@ -27,7 +26,6 @@ const HeadingGroup = styled.div`
 `;
 
 function BookingDetail() {
-  const { t } = useLanguage();
   const { booking, isLoading } = useBooking();
   const { checkout, isCheckingOut } = useCheckout();
   const { deleteBooking, isDeleting } = useDeleteBooking();
@@ -50,16 +48,16 @@ function BookingDetail() {
     <>
       <Row type="horizontal">
         <HeadingGroup>
-          <Heading as="h1">{t("pages.bookings.detail", { id: bookingId })}</Heading>
+          <Heading as="h1">{`预订 #${bookingId}`}</Heading>
           <Tag type={statusToTagName[status]}>
             {status === "unconfirmed"
-              ? t("bookings.unconfirmed")
+              ? "未确认"
               : status === "checked-in"
-                ? t("bookings.checkedIn")
-                : t("bookings.checkedOut")}
+                ? "已入住"
+                : "已退房"}
           </Tag>
         </HeadingGroup>
-        <ButtonText onClick={moveBack}>&larr; {t("common.back")}</ButtonText>
+        <ButtonText onClick={moveBack}>&larr; 返回</ButtonText>
       </Row>
 
       <BookingDataBox booking={booking} />
@@ -67,7 +65,7 @@ function BookingDetail() {
       <ButtonGroup>
         {status === "unconfirmed" && (
           <Button onClick={() => navigate(`/checkin/${bookingId}`)}>
-            {t("common.checkIn")}
+            入住
           </Button>
         )}
 
@@ -77,13 +75,13 @@ function BookingDetail() {
             onClick={() => checkout(bookingId)}
             disabled={isCheckingOut}
           >
-            {t("common.checkOut")}
+            退房
           </Button>
         )}
 
         <Modal>
           <Modal.Open opens="delete">
-            <Button variation="danger">{t("bookings.deleteBooking")}</Button>
+            <Button variation="danger">删除预订</Button>
           </Modal.Open>
 
           <Modal.Window name="delete">
@@ -100,7 +98,7 @@ function BookingDetail() {
         </Modal>
 
         <Button variation="secondary" onClick={moveBack}>
-          {t("common.back")}
+          返回
         </Button>
       </ButtonGroup>
     </>

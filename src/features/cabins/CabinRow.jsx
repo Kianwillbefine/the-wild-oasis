@@ -9,7 +9,6 @@ import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
-import { useLanguage } from "../../context/LanguageContext";
 
 // const TableRow = styled.div`
 //   display: grid;
@@ -51,7 +50,6 @@ const Discount = styled.div`
 `;
 
 function CabinRow({ cabin }) {
-  const { t } = useLanguage();
   const { isDeleting, deleteCabin } = useDeleteCabin();
   const { isCreating, createCabin } = useCreateCabin();
 
@@ -67,7 +65,7 @@ function CabinRow({ cabin }) {
 
   function handleDuplicate() {
     createCabin({
-      name: t("cabins.duplicatePrefix", { name }),
+      name: `${name}（副本）`,
       maxCapacity,
       regularPrice,
       discount,
@@ -80,7 +78,7 @@ function CabinRow({ cabin }) {
     <Table.Row>
       <Img src={image} />
       <Cabin>{name}</Cabin>
-      <div>{t("cabins.fitsUpTo", { count: maxCapacity })}</div>
+      <div>{`最多可住 ${maxCapacity} 位客人`}</div>
       <Price>{formatCurrency(regularPrice)}</Price>
       {discount ? (
         <Discount>{formatCurrency(discount)}</Discount>
@@ -98,15 +96,15 @@ function CabinRow({ cabin }) {
                 onClick={handleDuplicate}
                 disabled={isCreating}
               >
-                {t("cabins.duplicate")}
+                复制
               </Menus.Button>
 
               <Modal.Open opens="edit">
-                <Menus.Button icon={<HiPencil />}>{t("cabins.edit")}</Menus.Button>
+                <Menus.Button icon={<HiPencil />}>编辑</Menus.Button>
               </Modal.Open>
 
               <Modal.Open opens="delete">
-                <Menus.Button icon={<HiTrash />}>{t("cabins.delete")}</Menus.Button>
+                <Menus.Button icon={<HiTrash />}>删除</Menus.Button>
               </Modal.Open>
             </Menus.List>
 

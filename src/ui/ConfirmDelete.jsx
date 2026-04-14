@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import Button from "./Button";
 import Heading from "./Heading";
-import { useLanguage } from "../context/LanguageContext";
 
 const StyledConfirmDelete = styled.div`
   width: 40rem;
@@ -22,12 +21,10 @@ const StyledConfirmDelete = styled.div`
 `;
 
 function ConfirmDelete({ resourceName, onConfirm, disabled, onCloseModal }) {
-  const { t } = useLanguage();
-
   return (
     <StyledConfirmDelete>
-      <Heading as="h3">{t("ui.deleteTitle", { resource: resourceName })}</Heading>
-      <p>{t("ui.deleteDescription", { resource: resourceName })}</p>
+      <Heading as="h3">删除{resourceName}</Heading>
+      <p>你确定要永久删除这个{resourceName}吗？此操作无法撤销。</p>
 
       <div>
         <Button
@@ -35,10 +32,10 @@ function ConfirmDelete({ resourceName, onConfirm, disabled, onCloseModal }) {
           disabled={disabled}
           onClick={onCloseModal}
         >
-          {t("common.cancel")}
+          取消
         </Button>
         <Button variation="danger" disabled={disabled} onClick={onConfirm}>
-          {t("cabins.delete")}
+          删除
         </Button>
       </div>
     </StyledConfirmDelete>

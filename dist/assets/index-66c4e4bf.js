@@ -1,0 +1,1 @@
+import{t as e,w as n}from"./index-9609f675.js";function r(a){e(1,arguments);var t=n(a);return t.setHours(0,0,0,0),t}function f(a,t){e(2,arguments);var s=r(a),i=r(t);return s.getTime()===i.getTime()}export{f as i};

@@ -5,7 +5,6 @@ import Tag from "../../ui/Tag";
 import { Flag } from "../../ui/Flag";
 import Button from "../../ui/Button";
 import CheckoutButton from "./CheckoutButton";
-import { useLanguage } from "../../context/LanguageContext";
 
 const StyledTodayItem = styled.li`
   display: grid;
@@ -27,17 +26,16 @@ const Guest = styled.div`
 `;
 
 function TodayItem({ activity }) {
-  const { t } = useLanguage();
   const { id, status, guests, numNights } = activity;
 
   return (
     <StyledTodayItem>
-      {status === "unconfirmed" && <Tag type="green">{t("dashboardPage.arriving")}</Tag>}
-      {status === "checked-in" && <Tag type="blue">{t("dashboardPage.departing")}</Tag>}
+      {status === "unconfirmed" && <Tag type="green">即将到店</Tag>}
+      {status === "checked-in" && <Tag type="blue">即将离店</Tag>}
 
       <Flag src={guests.countryFlag} alt={`Flag of ${guests.country}`} />
       <Guest>{guests.fullName}</Guest>
-      <div>{t("dashboardPage.nights", { count: numNights })}</div>
+      <div>{numNights} 晚</div>
 
       {status === "unconfirmed" && (
         <Button
@@ -46,7 +44,7 @@ function TodayItem({ activity }) {
           as={Link}
           to={`/checkin/${id}`}
         >
-          {t("common.checkIn")}
+          入住
         </Button>
       )}
       {status === "checked-in" && <CheckoutButton bookingId={id} />}

@@ -16,7 +16,6 @@ import {
   formatDateWithWeekday,
   formatDistanceFromNow,
 } from "../../utils/helpers";
-import { useLanguage } from "../../context/LanguageContext";
 
 const StyledBookingDataBox = styled.section`
   /* 盒子容器 */
@@ -109,7 +108,6 @@ const Footer = styled.footer`
 
 // 纯展示组件
 function BookingDataBox({ booking }) {
-  const { t } = useLanguage();
   const {
     created_at,
     startDate,
@@ -132,14 +130,14 @@ function BookingDataBox({ booking }) {
         <div>
           <HiOutlineHomeModern />
           <p>
-            {t("bookings.nightsInCabin", { nights: numNights, cabin: cabinName })}
+            {`房源 ${cabinName}，共 ${numNights} 晚`}
           </p>
         </div>
 
         <p>
           {formatDateWithWeekday(startDate)} (
           {isToday(new Date(startDate))
-            ? t("common.today")
+            ? "今天"
             : formatDistanceFromNow(startDate)}
           ) &mdash; {formatDateWithWeekday(endDate)}
         </p>
@@ -149,47 +147,42 @@ function BookingDataBox({ booking }) {
         <Guest>
           {countryFlag && <Flag src={countryFlag} alt={`Flag of ${country}`} />}
           <p>
-            {guestName} {numGuests > 1 ? t("bookings.guestCount", { count: numGuests - 1 }) : ""}
+            {guestName} {numGuests > 1 ? `等 ${numGuests - 1} 位同行客人` : ""}
           </p>
           <span>&bull;</span>
           <p>{email}</p>
           <span>&bull;</span>
-          <p>{t("bookings.nationalId", { id: nationalID })}</p>
+          <p>{`证件号：${nationalID}`}</p>
         </Guest>
 
         {observations && (
           <DataItem
             icon={<HiOutlineChatBubbleBottomCenterText />}
-            label={t("bookings.observations")}
+            label="备注"
           >
             {observations}
           </DataItem>
         )}
 
-        <DataItem icon={<HiOutlineCheckCircle />} label={t("bookings.breakfastIncluded")}>
-          {hasBreakfast ? t("bookings.yes") : t("bookings.no")}
+        <DataItem icon={<HiOutlineCheckCircle />} label="是否含早餐">
+          {hasBreakfast ? "是" : "否"}
         </DataItem>
 
         <Price isPaid={isPaid}>
-          <DataItem icon={<HiOutlineCurrencyDollar />} label={t("bookings.totalPrice")}>
+          <DataItem icon={<HiOutlineCurrencyDollar />} label="总价">
             {formatCurrency(totalPrice)}
 
             {hasBreakfast &&
-              ` ${t("bookings.totalWithBreakfast", {
-                cabinPrice: formatCurrency(cabinPrice),
-                breakfastPrice: formatCurrency(extrasPrice),
-              })}`}
+              ` （房费 ${formatCurrency(cabinPrice)} + 早餐 ${formatCurrency(extrasPrice)}）`}
           </DataItem>
 
-          <p>{isPaid ? t("bookings.paid") : t("bookings.willPayAtProperty")}</p>
+          <p>{isPaid ? "已支付" : "到店支付"}</p>
         </Price>
       </Section>
 
       <Footer>
         <p>
-          {t("bookings.bookedOn", {
-            date: formatDateTime(created_at),
-          })}
+          {`预订时间：${formatDateTime(created_at)}`}
         </p>
       </Footer>
     </StyledBookingDataBox>

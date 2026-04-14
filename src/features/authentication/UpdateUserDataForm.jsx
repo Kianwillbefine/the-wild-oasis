@@ -8,10 +8,8 @@ import Input from "../../ui/Input";
 
 import { useUser } from "./useUser";
 import { useUpdateUser } from "./useUpdateUser";
-import { useLanguage } from "../../context/LanguageContext";
 
 function UpdateUserDataForm() {
-  const { t } = useLanguage();
   // 这里不需要单独处理 loading 状态，因为此时用户数据已经提前加载完成，可以直接使用
   const {
     user: {
@@ -46,11 +44,11 @@ function UpdateUserDataForm() {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <FormRow label={t("auth.email")}>
+      <FormRow label="邮箱地址">
         <Input value={email} disabled />
       </FormRow>
 
-      <FormRow label={t("auth.fullName")}>
+      <FormRow label="姓名">
         <Input
           type="text"
           value={fullName}
@@ -60,7 +58,7 @@ function UpdateUserDataForm() {
         />
       </FormRow>
 
-      <FormRow label={t("auth.avatarImage")}>
+      <FormRow label="头像图片">
         <FileInput
           id="avatar"
           accept="image/*"
@@ -76,9 +74,9 @@ function UpdateUserDataForm() {
           disabled={isUpdating}
           onClick={handleCancel}
         >
-          {t("common.cancel")}
+          取消
         </Button>
-        <Button disabled={isUpdating}>{t("auth.updateAccount")}</Button>
+        <Button disabled={isUpdating}>更新账户</Button>
       </FormRow>
     </Form>
   );

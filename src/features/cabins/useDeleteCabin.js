@@ -1,16 +1,14 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
 import { deleteCabin as deleteCabinApi } from "../../services/apiCabins";
-import { useLanguage } from "../../context/LanguageContext";
 
 export function useDeleteCabin() {
-  const { t } = useLanguage();
   const queryClient = useQueryClient();
 
   const { isLoading: isDeleting, mutate: deleteCabin } = useMutation({
     mutationFn: deleteCabinApi,
     onSuccess: () => {
-      toast.success(t("cabins.deleted"));
+      toast.success("房源删除成功");
 
       queryClient.invalidateQueries({
         queryKey: ["cabins"],

@@ -1,31 +1,29 @@
 import SortBy from "../../ui/SortBy";
 import Filter from "../../ui/Filter";
 import TableOperations from "../../ui/TableOperations";
-import { useLanguage } from "../../context/LanguageContext";
 
 function BookingTableOperations() {
-  const { t } = useLanguage();
   return (
     <TableOperations>
       <Filter
         filterField="status"
         options={[
-          { value: "all", label: t("bookings.all") },
-          { value: "checked-out", label: t("bookings.checkedOut") },
-          { value: "checked-in", label: t("bookings.checkedIn") },
-          { value: "unconfirmed", label: t("bookings.unconfirmed") },
+          { value: "all", label: "全部" },
+          { value: "checked-out", label: "已退房" },
+          { value: "checked-in", label: "已入住" },
+          { value: "unconfirmed", label: "未确认" },
         ]}
       />
 
       <SortBy
         options={[
-          { value: "startDate-desc", label: t("bookings.sortDateDesc") },
-          { value: "startDate-asc", label: t("bookings.sortDateAsc") },
+          { value: "startDate-desc", label: "按日期排序（最近优先）" },
+          { value: "startDate-asc", label: "按日期排序（最早优先）" },
           {
             value: "totalPrice-desc",
-            label: t("bookings.sortAmountDesc"),
+            label: "按金额排序（高到低）",
           },
-          { value: "totalPrice-asc", label: t("bookings.sortAmountAsc") },
+          { value: "totalPrice-asc", label: "按金额排序（低到高）" },
         ]}
       />
     </TableOperations>

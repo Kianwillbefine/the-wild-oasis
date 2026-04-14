@@ -2,10 +2,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateBooking } from "../../services/apiBookings";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { useLanguage } from "../../context/LanguageContext";
 
 export function useCheckin() {
-  const { t } = useLanguage();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
@@ -18,12 +16,12 @@ export function useCheckin() {
       }),
 
     onSuccess: (data) => {
-      toast.success(t("bookings.checkinSuccess", { id: data.id }));
+      toast.success(`预订 #${data.id} 已成功办理入住`);
       queryClient.invalidateQueries({ active: true });
       navigate("/");
     },
 
-    onError: () => toast.error(t("bookings.checkinError")),
+    onError: () => toast.error("办理入住时出错"),
   });
 
   return { checkin, isCheckingIn };

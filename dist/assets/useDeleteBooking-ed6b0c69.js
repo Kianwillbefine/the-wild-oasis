@@ -1,1 +1,0 @@
-import{u,k as a,t as r,N as g,w as e}from"./index-8ca981ee.js";function c(){const{t:o}=u(),s=a(),{isLoading:n,mutate:t}=r({mutationFn:g,onSuccess:()=>{e.success(o("bookings.deleted")),s.invalidateQueries({queryKey:["bookings"]})},onError:i=>e.error(i.message)});return{isDeleting:n,deleteBooking:t}}export{c as u};

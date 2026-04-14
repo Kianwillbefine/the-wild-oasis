@@ -4,10 +4,8 @@ import Input from "../../ui/Input";
 import Spinner from "../../ui/Spinner";
 import { useSettings } from "./useSettings";
 import { useUpdateSetting } from "./useUpdateSetting";
-import { useLanguage } from "../../context/LanguageContext";
 
 function UpdateSettingsForm() {
-  const { t } = useLanguage();
   const {
     isLoading,
     settings: {
@@ -30,7 +28,7 @@ function UpdateSettingsForm() {
 
   return (
     <Form>
-      <FormRow label={t("settingsForm.minBookingLength")}>
+      <FormRow label="每笔预订最少晚数">
         <Input
           type="number"
           id="min-nights"
@@ -40,7 +38,7 @@ function UpdateSettingsForm() {
         />
       </FormRow>
 
-      <FormRow label={t("settingsForm.maxBookingLength")}>
+      <FormRow label="每笔预订最多晚数">
         <Input
           type="number"
           id="max-nights"
@@ -50,7 +48,7 @@ function UpdateSettingsForm() {
         />
       </FormRow>
 
-      <FormRow label={t("settingsForm.maxGuestsPerBooking")}>
+      <FormRow label="每笔预订最多客人数">
         <Input
           type="number"
           id="max-guests"
@@ -60,7 +58,7 @@ function UpdateSettingsForm() {
         />
       </FormRow>
 
-      <FormRow label={t("settingsForm.breakfastPrice")}>
+      <FormRow label="早餐价格">
         <Input
           type="number"
           id="breakfast-price"

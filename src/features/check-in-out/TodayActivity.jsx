@@ -6,7 +6,6 @@ import Row from "../../ui/Row";
 import { useTodayActivity } from "./useTodayActivity";
 import Spinner from "../../ui/Spinner";
 import TodayItem from "./TodayItem";
-import { useLanguage } from "../../context/LanguageContext";
 
 const StyledToday = styled.div`
   /* 盒子容器 */
@@ -42,12 +41,11 @@ const NoActivity = styled.p`
 `;
 
 function TodayActivity() {
-  const { t } = useLanguage();
   const { activities, isLoading } = useTodayActivity();
   return (
     <StyledToday>
       <Row type="horizontal">
-        <Heading as="h2">{t("dashboardPage.todayTitle")}</Heading>
+        <Heading as="h2">今天</Heading>
       </Row>
 
       {!isLoading ? (
@@ -58,7 +56,7 @@ function TodayActivity() {
             ))}
           </TodayList>
         ) : (
-          <NoActivity>{t("dashboardPage.noActivity")}</NoActivity>
+          <NoActivity>今天暂无活动...</NoActivity>
         )
       ) : (
         <Spinner />

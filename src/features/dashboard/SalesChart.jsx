@@ -1,20 +1,10 @@
 import styled from "styled-components";
 import DashboardBox from "./DashboardBox";
 import Heading from "../../ui/Heading";
-import {
-  Area,
-  AreaChart,
-  CartesianGrid,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
-import { useDarkMode } from "../../context/DarkModeContext";
+import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { useThemeStore } from "../../stores/themeStore";
 import { eachDayOfInterval, isSameDay, subDays } from "date-fns";
-import { useLanguage } from "../../context/LanguageContext";
 import { formatChartDate, formatDate } from "../../utils/helpers";
-
 const StyledSalesChart = styled(DashboardBox)`
   grid-column: 1 / -1;
 
@@ -26,14 +16,12 @@ const StyledSalesChart = styled(DashboardBox)`
 `;
 
 function SalesChart({ bookings, numDays }) {
-  const { t } = useLanguage();
-  const { isDarkMode } = useDarkMode();
+  const isDarkMode = useThemeStore((state) => state.isDarkMode);
 
   const allDates = eachDayOfInterval({
     start: subDays(new Date(), numDays - 1),
     end: new Date(),
   });
-
   const data = allDates.map((date) => {
     return {
       label: formatChartDate(date),
@@ -59,28 +47,14 @@ function SalesChart({ bookings, numDays }) {
         text: "#374151",
         background: "#fff",
       };
-
   return (
     <StyledSalesChart>
-      <Heading as="h2">
-        {t("dashboardPage.salesTitle", {
-          start: formatDate(allDates.at(0)),
-          end: formatDate(allDates.at(-1)),
-        })}
-      </Heading>
+      <Heading as="h2">{`${formatDate(allDates.at(0))} 至 ${formatDate(allDates.at(-1))} 的销售额`}</Heading>
 
       <ResponsiveContainer height={300} width="100%">
         <AreaChart data={data}>
-          <XAxis
-            dataKey="label"
-            tick={{ fill: colors.text }}
-            tickLine={{ stroke: colors.text }}
-          />
-          <YAxis
-            unit="¥"
-            tick={{ fill: colors.text }}
-            tickLine={{ stroke: colors.text }}
-          />
+          <XAxis dataKey="label" tick={{ fill: colors.text }} tickLine={{ stroke: colors.text }} />
+          <YAxis unit="¥" tick={{ fill: colors.text }} tickLine={{ stroke: colors.text }} />
           <CartesianGrid strokeDasharray="4" />
           <Tooltip contentStyle={{ backgroundColor: colors.background }} />
           <Area
@@ -89,7 +63,7 @@ function SalesChart({ bookings, numDays }) {
             stroke={colors.totalSales.stroke}
             fill={colors.totalSales.fill}
             strokeWidth={2}
-            name={t("dashboardPage.totalSales")}
+            name="总销售额"
             unit="¥"
           />
           <Area
@@ -98,7 +72,7 @@ function SalesChart({ bookings, numDays }) {
             stroke={colors.extrasSales.stroke}
             fill={colors.extrasSales.fill}
             strokeWidth={2}
-            name={t("dashboardPage.extrasSales")}
+            name="附加销售额"
             unit="¥"
           />
         </AreaChart>

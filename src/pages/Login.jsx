@@ -2,7 +2,6 @@ import styled from "styled-components";
 import LoginForm from "../features/authentication/LoginForm";
 import Logo from "../ui/Logo";
 import Heading from "../ui/Heading";
-import { useLanguage } from "../context/LanguageContext";
 
 const LoginLayout = styled.main`
   min-height: 100vh;
@@ -15,12 +14,10 @@ const LoginLayout = styled.main`
 `;
 
 function Login() {
-  const { t } = useLanguage();
-
   return (
     <LoginLayout>
       <Logo />
-      <Heading as="h4">{t("pages.login.title")}</Heading>
+      <Heading as="h4">登录账户</Heading>
       <LoginForm />
     </LoginLayout>
   );

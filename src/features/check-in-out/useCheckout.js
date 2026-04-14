@@ -1,10 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateBooking } from "../../services/apiBookings";
 import { toast } from "react-hot-toast";
-import { useLanguage } from "../../context/LanguageContext";
 
 export function useCheckout() {
-  const { t } = useLanguage();
   const queryClient = useQueryClient();
 
   const { mutate: checkout, isLoading: isCheckingOut } = useMutation({
@@ -14,11 +12,11 @@ export function useCheckout() {
       }),
 
     onSuccess: (data) => {
-      toast.success(t("bookings.checkoutSuccess", { id: data.id }));
+      toast.success(`预订 #${data.id} 已成功退房`);
       queryClient.invalidateQueries({ active: true });
     },
 
-    onError: () => toast.error(t("bookings.checkoutError")),
+    onError: () => toast.error("办理退房时出错"),
   });
 
   return { checkout, isCheckingOut };

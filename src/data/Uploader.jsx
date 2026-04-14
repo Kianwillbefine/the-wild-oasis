@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { isFuture, isPast, isToday } from "date-fns";
+import { toast } from "react-hot-toast";
 import supabase from "../services/supabase";
 import Button from "../ui/Button";
 import { subtractDates } from "../utils/helpers";
@@ -7,6 +8,7 @@ import { subtractDates } from "../utils/helpers";
 import { bookings } from "./data-bookings";
 import { cabins } from "./data-cabins";
 import { guests } from "./data-guests";
+import { generateOrders } from "./data-orders";
 
 // const originalSettings = {
 //   minBookingLength: 3,
@@ -27,6 +29,11 @@ async function deleteCabins() {
 
 async function deleteBookings() {
   const { error } = await supabase.from("bookings").delete().gt("id", 0);
+  if (error) console.log(error.message);
+}
+
+async function deleteOrders() {
+  const { error } = await supabase.from("orders").delete().gt("id", 0);
   if (error) console.log(error.message);
 }
 
@@ -101,12 +108,28 @@ async function createBookings() {
   if (error) console.log(error.message);
 }
 
+async function createOrders(count = 2000) {
+  const orders = generateOrders(count);
+  const chunkSize = 500;
+
+  for (let i = 0; i < orders.length; i += chunkSize) {
+    const chunk = orders.slice(i, i + chunkSize);
+    const { error } = await supabase.from("orders").insert(chunk);
+
+    if (error) {
+      console.log(error.message);
+      throw error;
+    }
+  }
+}
+
 function Uploader() {
   const [isLoading, setIsLoading] = useState(false);
 
   async function uploadAll() {
     setIsLoading(true);
     // 必须先删除预订数据
+    await deleteOrders();
     await deleteBookings();
     await deleteGuests();
     await deleteCabins();
@@ -115,6 +138,7 @@ function Uploader() {
     await createGuests();
     await createCabins();
     await createBookings();
+    await createOrders(2000);
 
     setIsLoading(false);
   }
@@ -124,6 +148,20 @@ function Uploader() {
     await deleteBookings();
     await createBookings();
     setIsLoading(false);
+  }
+
+  async function uploadOrders() {
+    try {
+      setIsLoading(true);
+      await deleteOrders();
+      await createOrders(2000);
+      toast.success("已上传 2000 条订单流水数据");
+    } catch (error) {
+      toast.error("订单流水上传失败");
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -147,6 +185,10 @@ function Uploader() {
 
       <Button onClick={uploadBookings} disabled={isLoading}>
         Upload bookings ONLY
+      </Button>
+
+      <Button onClick={uploadOrders} disabled={isLoading}>
+        Upload 2000 orders
       </Button>
     </div>
   );

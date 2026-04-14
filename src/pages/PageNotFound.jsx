@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 import { useMoveBack } from "../hooks/useMoveBack";
 import Heading from "../ui/Heading";
-import { useLanguage } from "../context/LanguageContext";
 
 const StyledPageNotFound = styled.main`
   height: 100vh;
@@ -29,14 +28,13 @@ const Box = styled.div`
 
 function PageNotFound() {
   const moveBack = useMoveBack();
-  const { t } = useLanguage();
 
   return (
     <StyledPageNotFound>
       <Box>
-        <Heading as="h1">{t("pages.notFound.title")}</Heading>
+        <Heading as="h1">未找到你要访问的页面</Heading>
         <button onClick={moveBack} size="large">
-          &larr; {t("common.back")}
+          &larr; 返回
         </button>
       </Box>
     </StyledPageNotFound>

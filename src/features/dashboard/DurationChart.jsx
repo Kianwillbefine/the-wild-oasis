@@ -1,8 +1,7 @@
-﻿import styled from "styled-components";
+import styled from "styled-components";
 import Heading from "../../ui/Heading";
 import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
-import { useDarkMode } from "../../context/DarkModeContext";
-import { useLanguage } from "../../context/LanguageContext";
+import { useThemeStore } from "../../stores/themeStore";
 
 const ChartBox = styled.div`
   background-color: var(--color-grey-0);
@@ -55,7 +54,18 @@ function getDurationKey(numNights) {
   return null;
 }
 
-function prepareData(startData, stays, t) {
+const durationMap = {
+  oneNight: "1 晚",
+  twoNights: "2 晚",
+  threeNights: "3 晚",
+  fourFiveNights: "4-5 晚",
+  sixSevenNights: "6-7 晚",
+  eightFourteenNights: "8-14 晚",
+  fifteenTwentyOneNights: "15-21 晚",
+  twentyOnePlusNights: "21 晚以上",
+};
+
+function prepareData(startData, stays) {
   return stays
     .reduce((arr, cur) => {
       const durationKey = getDurationKey(cur.numNights);
@@ -68,19 +78,18 @@ function prepareData(startData, stays, t) {
     .filter((item) => item.value > 0)
     .map((item) => ({
       ...item,
-      duration: t(`dashboardPage.${item.key}`),
+      duration: durationMap[item.key],
     }));
 }
 
 function DurationChart({ confirmedStays }) {
-  const { t } = useLanguage();
-  const { isDarkMode } = useDarkMode();
+  const isDarkMode = useThemeStore((state) => state.isDarkMode);
 
-  const data = prepareData(isDarkMode ? startDataDark : startDataLight, confirmedStays, t);
+  const data = prepareData(isDarkMode ? startDataDark : startDataLight, confirmedStays);
 
   return (
     <ChartBox>
-      <Heading as="h2">{t("dashboardPage.durationTitle")}</Heading>
+      <Heading as="h2">住宿时长分布</Heading>
       <ResponsiveContainer width="100%" height={240}>
         <PieChart>
           <Pie
