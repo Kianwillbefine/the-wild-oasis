@@ -2,6 +2,7 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 // import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Toaster } from "react-hot-toast";
+import { Suspense, lazy } from "react";
 
 // 页面级错误边界控制
 import ErrorBoundaryComponent from "./ui/ErrorBoundary";
@@ -9,31 +10,36 @@ import GlobalStyles from "./styles/GlobalStyles";
 import AuthBootstrap from "./ui/AuthBootstrap";
 import ProtectedRoute from "./ui/ProtectedRoute";
 import PublicOnlyRoute from "./ui/PublicOnlyRoute";
-// import LazyComponent from "./ui/LazyComponent";
-// const Dashboard = () => <LazyComponent importComponent={() => import("./pages/Dashboard")} />;
 import Dashboard from "./pages/Dashboard";
-// const Bookings = () => <LazyComponent importComponent={() => import("./pages/Bookings")} />;
-// const Cabins = () => <LazyComponent importComponent={() => import("./pages/Cabins")} />;
-// const Users = () => <LazyComponent importComponent={() => import("./pages/Users")} />;
-// const Orders = () => <LazyComponent importComponent={() => import("./pages/Orders")} />;
-// const Settings = () => <LazyComponent importComponent={() => import("./pages/Settings")} />;
-// const Account = () => <LazyComponent importComponent={() => import("./pages/Account")} />;
-// const Login = () => <LazyComponent importComponent={() => import("./pages/Login")} />;
-// const PageNotFound = () => <LazyComponent importComponent={() => import("./pages/PageNotFound")} />;
-// const Booking = () => <LazyComponent importComponent={() => import("./pages/Booking")} />;
-// const Checkin = () => <LazyComponent importComponent={() => import("./pages/Checkin")} />;
-// const AppLayout = () => <LazyComponent importComponent={() => import("./ui/AppLayout")} />;
-import Orders from "./pages/Orders";
-import Bookings from "./pages/Bookings";
-import Cabins from "./pages/Cabins";
-import Users from "./pages/Users";
-import Settings from "./pages/Settings";
-import Account from "./pages/Account";
-import Login from "./pages/Login";
-import PageNotFound from "./pages/PageNotFound";
 import AppLayout from "./ui/AppLayout";
-import Booking from "./pages/Booking";
-import Checkin from "./pages/Checkin";
+import Spinner from "./ui/Spinner";
+
+// 直接导入，打包后会分成多个 chunk，加载时会有多个请求，视觉上不够集中
+const Bookings = lazy(() => import("./pages/Bookings"));
+const Cabins = lazy(() => import("./pages/Cabins"));
+const Users = lazy(() => import("./pages/Users"));
+const Orders = lazy(() => import("./pages/Orders"));
+const Settings = lazy(() => import("./pages/Settings"));
+const Account = lazy(() => import("./pages/Account"));
+const Login = lazy(() => import("./pages/Login"));
+const PageNotFound = lazy(() => import("./pages/PageNotFound"));
+const Checkin = lazy(() => import("./pages/Checkin"));
+const Booking = lazy(() => import("./pages/Booking"));
+
+function lazyRoute(element) {
+  return <Suspense fallback={<Spinner />}>{element}</Suspense>;
+}
+
+// import Bookings from "./pages/Bookings";
+// import Booking from "./pages/Booking";
+// import Cabins from "./pages/Cabins";
+// import Users from "./pages/Users";
+// import Orders from "./pages/Orders";
+// import Settings from "./pages/Settings";
+// import Account from "./pages/Account";
+// import Login from "./pages/Login";
+// import PageNotFound from "./pages/PageNotFound";
+// import Checkin from "./pages/Checkin";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -69,25 +75,25 @@ function App() {
                   </ErrorBoundaryComponent>
                 }
               />
-              <Route path="bookings" element={<Bookings />} />
-              <Route path="bookings/:bookingId" element={<Booking />} />
-              <Route path="checkin/:bookingId" element={<Checkin />} />
-              <Route path="cabins" element={<Cabins />} />
-              <Route path="users" element={<Users />} />
-              <Route path="orders" element={<Orders />} />
-              <Route path="settings" element={<Settings />} />
-              <Route path="account" element={<Account />} />
+              <Route path="bookings" element={lazyRoute(<Bookings />)} />
+              <Route path="bookings/:bookingId" element={lazyRoute(<Booking />)} />
+              <Route path="checkin/:bookingId" element={lazyRoute(<Checkin />)} />
+              <Route path="cabins" element={lazyRoute(<Cabins />)} />
+              <Route path="users" element={lazyRoute(<Users />)} />
+              <Route path="orders" element={lazyRoute(<Orders />)} />
+              <Route path="settings" element={lazyRoute(<Settings />)} />
+              <Route path="account" element={lazyRoute(<Account />)} />
             </Route>
 
             <Route
               path="login"
               element={
                 <PublicOnlyRoute>
-                  <Login />
+                  {lazyRoute(<Login />)}
                 </PublicOnlyRoute>
               }
             />
-            <Route path="*" element={<PageNotFound />} />
+            <Route path="*" element={lazyRoute(<PageNotFound />)} />
           </Routes>
         </BrowserRouter>
       </AuthBootstrap>

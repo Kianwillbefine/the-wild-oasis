@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useThemeStore } from "../stores/themeStore";
+import { useStore } from "../stores/index";
 
 const StyledLogo = styled.div`
   text-align: center;
@@ -11,9 +11,9 @@ const Img = styled.img`
 `;
 
 function Logo() {
-  const isDarkMode = useThemeStore((state) => state.isDarkMode);
+  const isDarkMode = useStore((state) => state.isDarkMode);
 
-  const src = isDarkMode ? "/logo-dark.png" : "/logo-light.png";
+  const src = isDarkMode ? "/logo-dark.webp" : "/logo-light.webp";
 
   return (
     <StyledLogo>

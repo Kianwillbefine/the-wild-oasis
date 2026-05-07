@@ -2,18 +2,14 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { login as loginApi } from "../../services/apiAuth";
-import { useAuthStore } from "../../stores/authStore";
+import { useStore } from "../../stores/index";
 
 export function useLogin() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const setAuthenticated = useAuthStore((state) => state.setAuthenticated);
-  const redirectAfterLogin = useAuthStore(
-    (state) => state.redirectAfterLogin
-  );
-  const clearRedirectAfterLogin = useAuthStore(
-    (state) => state.clearRedirectAfterLogin
-  );
+  const setAuthenticated = useStore((state) => state.setAuthenticated);
+  const redirectAfterLogin = useStore((state) => state.redirectAfterLogin);
+  const clearRedirectAfterLogin = useStore((state) => state.clearRedirectAfterLogin);
 
   const { mutate: login, isLoading } = useMutation({
     mutationFn: ({ email, password }) => loginApi({ email, password }),

@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { useUser } from "../features/authentication/useUser";
-import { AUTH_STATUS, useAuthStore } from "../stores/authStore";
+import { useStore } from "../stores/index";
+import { AUTH_STATUS } from "../stores/slices/authSlice";
 import Spinner from "./Spinner";
 
 const FullPage = styled.div`
@@ -14,8 +15,8 @@ const FullPage = styled.div`
 function AuthBootstrap({ children }) {
   useUser();
 
-  const authStatus = useAuthStore((state) => state.authStatus);
-  const isHydrated = useAuthStore((state) => state.isHydrated);
+  const authStatus = useStore((state) => state.authStatus);
+  const isHydrated = useStore((state) => state.isHydrated);
 
   if (!isHydrated || authStatus === AUTH_STATUS.CHECKING)
     return (

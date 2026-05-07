@@ -1,14 +1,16 @@
-import SalesChart from "./SalesChart";
-import DurationChart from "./DurationChart";
 import styled from "styled-components";
 import { useRecentStays } from "./useRecentStays";
 import { useRecentBookings } from "./useRecentBookings";
-import Stats from "./Stats";
-import { useCabins } from "../cabins/useCabins";
-import TodayActivity from "../check-in-out/TodayActivity";
-// import LazyComponent from "../../ui/LazyComponent";
 import ErrorBoundary from "../../ui/ErrorBoundary";
-// import Uploader from "../../data/Uploader";
+import { useCabins } from "../cabins/useCabins";
+import Stats from "./Stats";
+import TodayActivity from "../check-in-out/TodayActivity";
+// import SalesChart from "./SalesChart";
+// import DurationChart from "./DurationChart";
+import { Suspense, lazy } from "react";
+
+const SalesChart = lazy(() => import("./SalesChart"));
+const DurationChart = lazy(() => import("./DurationChart"));
 const StyledDashboardLayout = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -53,13 +55,6 @@ function StatsSkeleton() {
   );
 }
 
-// const SalesChart = (props) => (
-//   <LazyComponent importComponent={() => import("./SalesChart")} Loading={() => <ChartPlaceholder />} {...props} />
-// );
-
-// const DurationChart = (props) => (
-//   <LazyComponent importComponent={() => import("./DurationChart")} Loading={() => <ChartPlaceholder />} {...props} />
-// );
 function DashboardLayout() {
   const { bookings, isLoading: isLoading1 } = useRecentBookings();
   const { confirmedStays, isLoading: isLoading2, numDays } = useRecentStays();
@@ -71,19 +66,26 @@ function DashboardLayout() {
   return (
     <ErrorBoundary>
       <StyledDashboardLayout>
-        {/* <Uploader /> */}
         {isLoadingStats ? (
           <StatsSkeleton />
         ) : (
           <Stats bookings={bookings} confirmedStays={confirmedStays} numDays={numDays} cabinCount={cabins.length} />
         )}
         <TodayActivity />
-        {isLoadingDurationChart ? <ChartPlaceholder /> : <DurationChart confirmedStays={confirmedStays} />}
+        {isLoadingDurationChart ? (
+          <ChartPlaceholder />
+        ) : (
+          <Suspense fallback={<ChartPlaceholder />}>
+            <DurationChart confirmedStays={confirmedStays} />
+          </Suspense>
+        )}
         {isLoadingSalesChart ? (
           <ChartPlaceholder />
         ) : (
           <ErrorBoundary>
-            <SalesChart bookings={bookings} numDays={numDays} />
+            <Suspense fallback={<ChartPlaceholder />}>
+              <SalesChart bookings={bookings} numDays={numDays} />
+            </Suspense>
           </ErrorBoundary>
         )}
       </StyledDashboardLayout>

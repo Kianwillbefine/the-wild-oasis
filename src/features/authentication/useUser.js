@@ -1,12 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { getCurrentUser } from "../../services/apiAuth";
-import { useAuthStore } from "../../stores/authStore";
+import { useStore } from "../../stores/index";
 
 export function useUser() {
-  const startAuthCheck = useAuthStore((state) => state.startAuthCheck);
-  const setAuthenticated = useAuthStore((state) => state.setAuthenticated);
-  const setAnonymous = useAuthStore((state) => state.setAnonymous);
+  const startAuthCheck = useStore((state) => state.startAuthCheck);
+  const setAuthenticated = useStore((state) => state.setAuthenticated);
+  const setAnonymous = useStore((state) => state.setAnonymous);
 
   const {
     isLoading,
@@ -22,7 +22,7 @@ export function useUser() {
     function () {
       if (isLoading) startAuthCheck();
     },
-    [isLoading, startAuthCheck]
+    [isLoading, startAuthCheck],
   );
 
   useEffect(
@@ -36,7 +36,7 @@ export function useUser() {
 
       setAuthenticated(user);
     },
-    [isError, isLoading, setAnonymous, setAuthenticated, user]
+    [isError, isLoading, setAnonymous, setAuthenticated, user],
   );
 
   return { isLoading, user, isAuthenticated: user?.role === "authenticated" };

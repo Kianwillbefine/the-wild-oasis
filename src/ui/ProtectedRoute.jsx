@@ -1,12 +1,13 @@
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { AUTH_STATUS, useAuthStore } from "../stores/authStore";
+import { useStore } from "../stores/index";
+import { AUTH_STATUS } from "../stores/slices/authSlice";
 
 function ProtectedRoute({ children }) {
   const navigate = useNavigate();
   const location = useLocation();
-  const authStatus = useAuthStore((state) => state.authStatus);
-  const setRedirectAfterLogin = useAuthStore((state) => state.setRedirectAfterLogin);
+  const authStatus = useStore((state) => state.authStatus);
+  const setRedirectAfterLogin = useStore((state) => state.setRedirectAfterLogin);
 
   useEffect(
     function () {
@@ -16,7 +17,7 @@ function ProtectedRoute({ children }) {
       setRedirectAfterLogin(redirectPath);
       navigate("/login", { replace: true });
     },
-    [authStatus, location, navigate, setRedirectAfterLogin]
+    [authStatus, location, navigate, setRedirectAfterLogin],
   );
 
   if (authStatus === AUTH_STATUS.AUTHENTICATED) return children;

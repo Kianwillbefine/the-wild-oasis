@@ -1,1 +1,0 @@
-import{n as e}from"./vendor-75fc689b.js";import{n as s}from"./index-9609f675.js";import{a as r,b as u}from"./query-cdedaf21.js";function l(){const o=r(),{isLoading:n,mutate:t}=u({mutationFn:s,onSuccess:()=>{e.success("预订删除成功"),o.invalidateQueries({queryKey:["bookings"]})},onError:i=>e.error(i.message)});return{isDeleting:n,deleteBooking:t}}export{l as u};

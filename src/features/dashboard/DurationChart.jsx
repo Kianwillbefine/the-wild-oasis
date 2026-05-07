@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import Heading from "../../ui/Heading";
 import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
-import { useThemeStore } from "../../stores/themeStore";
+import { useStore } from "../../stores/index";
+import { useMemo } from "react";
 
 const ChartBox = styled.div`
   background-color: var(--color-grey-0);
@@ -71,9 +72,7 @@ function prepareData(startData, stays) {
       const durationKey = getDurationKey(cur.numNights);
       if (!durationKey) return arr;
 
-      return arr.map((item) =>
-        item.key === durationKey ? { ...item, value: item.value + 1 } : item
-      );
+      return arr.map((item) => (item.key === durationKey ? { ...item, value: item.value + 1 } : item));
     }, startData)
     .filter((item) => item.value > 0)
     .map((item) => ({
@@ -83,9 +82,12 @@ function prepareData(startData, stays) {
 }
 
 function DurationChart({ confirmedStays }) {
-  const isDarkMode = useThemeStore((state) => state.isDarkMode);
+  const isDarkMode = useStore((state) => state.isDarkMode);
 
-  const data = prepareData(isDarkMode ? startDataDark : startDataLight, confirmedStays);
+  const data = useMemo(
+    () => prepareData(isDarkMode ? startDataDark : startDataLight, confirmedStays),
+    [confirmedStays, isDarkMode],
+  );
 
   return (
     <ChartBox>

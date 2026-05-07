@@ -1,0 +1,1 @@
+import{n as e}from"./toast-vendor-45638962.js";import{p as s}from"../entry/index-93132dc4.js";import{a4 as r,a5 as u}from"./vendor-d57a50b0.js";function l(){const o=r(),{isLoading:t,mutate:n}=u({mutationFn:s,onSuccess:()=>{e.success("预订删除成功"),o.invalidateQueries({queryKey:["bookings"]})},onError:i=>e.error(i.message)});return{isDeleting:t,deleteBooking:n}}export{l as u};

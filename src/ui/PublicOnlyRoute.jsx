@@ -1,14 +1,13 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { AUTH_STATUS, useAuthStore } from "../stores/authStore";
+import { useStore } from "../stores/index";
+import { AUTH_STATUS } from "../stores/slices/authSlice";
 
 function PublicOnlyRoute({ children }) {
   const navigate = useNavigate();
-  const authStatus = useAuthStore((state) => state.authStatus);
-  const redirectAfterLogin = useAuthStore((state) => state.redirectAfterLogin);
-  const clearRedirectAfterLogin = useAuthStore(
-    (state) => state.clearRedirectAfterLogin
-  );
+  const authStatus = useStore((state) => state.authStatus);
+  const redirectAfterLogin = useStore((state) => state.redirectAfterLogin);
+  const clearRedirectAfterLogin = useStore((state) => state.clearRedirectAfterLogin);
 
   useEffect(
     function () {
@@ -18,7 +17,7 @@ function PublicOnlyRoute({ children }) {
       clearRedirectAfterLogin();
       navigate(destination, { replace: true });
     },
-    [authStatus, clearRedirectAfterLogin, navigate, redirectAfterLogin]
+    [authStatus, clearRedirectAfterLogin, navigate, redirectAfterLogin],
   );
 
   if (authStatus === AUTH_STATUS.ANONYMOUS) return children;

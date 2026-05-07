@@ -11,12 +11,9 @@ import { useUpdateUser } from "./useUpdateUser";
 
 function UpdateUserDataForm() {
   // 这里不需要单独处理 loading 状态，因为此时用户数据已经提前加载完成，可以直接使用
-  const {
-    user: {
-      email,
-      user_metadata: { fullName: currentFullName },
-    },
-  } = useUser();
+  const { user } = useUser();
+  const email = user?.email ?? "";
+  const currentFullName = user?.user_metadata?.fullName ?? "";
 
   const { updateUser, isUpdating } = useUpdateUser();
 

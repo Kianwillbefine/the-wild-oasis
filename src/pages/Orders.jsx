@@ -7,7 +7,7 @@ function Orders() {
   return (
     <>
       <Row type="horizontal">
-        <Heading as="h1">订单流水</Heading>
+        <Heading as="h1">订单</Heading>
         <OrdersOperations />
       </Row>
 

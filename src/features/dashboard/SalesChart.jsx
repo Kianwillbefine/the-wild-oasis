@@ -2,8 +2,9 @@ import styled from "styled-components";
 import DashboardBox from "./DashboardBox";
 import Heading from "../../ui/Heading";
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { useThemeStore } from "../../stores/themeStore";
-import { eachDayOfInterval, isSameDay, subDays } from "date-fns";
+import { useStore } from "../../stores/index";
+import { useMemo } from "react";
+import { eachDayOfInterval, subDays } from "date-fns";
 import { formatChartDate, formatDate } from "../../utils/helpers";
 const StyledSalesChart = styled(DashboardBox)`
   grid-column: 1 / -1;
@@ -16,23 +17,40 @@ const StyledSalesChart = styled(DashboardBox)`
 `;
 
 function SalesChart({ bookings, numDays }) {
-  const isDarkMode = useThemeStore((state) => state.isDarkMode);
+  const isDarkMode = useStore((state) => state.isDarkMode);
 
-  const allDates = eachDayOfInterval({
-    start: subDays(new Date(), numDays - 1),
-    end: new Date(),
-  });
-  const data = allDates.map((date) => {
+  const { allDates, data } = useMemo(() => {
+    const dates = eachDayOfInterval({
+      start: subDays(new Date(), numDays - 1),
+      end: new Date(),
+    });
+
+    const salesByDay = bookings.reduce((map, booking) => {
+      const day = formatChartDate(booking.created_at);
+      const current = map.get(day) ?? { totalSales: 0, extrasSales: 0 };
+
+      map.set(day, {
+        totalSales: current.totalSales + booking.totalPrice,
+        extrasSales: current.extrasSales + booking.extrasPrice,
+      });
+
+      return map;
+    }, new Map());
+
     return {
-      label: formatChartDate(date),
-      totalSales: bookings
-        .filter((booking) => isSameDay(date, new Date(booking.created_at)))
-        .reduce((acc, cur) => acc + cur.totalPrice, 0),
-      extrasSales: bookings
-        .filter((booking) => isSameDay(date, new Date(booking.created_at)))
-        .reduce((acc, cur) => acc + cur.extrasPrice, 0),
+      allDates: dates,
+      data: dates.map((date) => {
+        const label = formatChartDate(date);
+        const sales = salesByDay.get(label) ?? { totalSales: 0, extrasSales: 0 };
+
+        return {
+          label,
+          totalSales: sales.totalSales,
+          extrasSales: sales.extrasSales,
+        };
+      }),
     };
-  });
+  }, [bookings, numDays]);
 
   const colors = isDarkMode
     ? {
